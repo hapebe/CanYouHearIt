@@ -6,24 +6,17 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Image;
-import java.awt.MediaTracker;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.sound.midi.Instrument;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiDevice;
@@ -64,6 +57,9 @@ import de.hapebe.cyhi.musical.TheoNote;
 import de.hapebe.cyhi.realtime.NoteOffTask;
 import de.hapebe.cyhi.ui.StatsPanel;
 import de.hapebe.cyhi.ui.UserNameDialog;
+import de.hapebe.cyhi.ui.lesson.ChordTypePanel;
+import de.hapebe.cyhi.ui.lesson.IntervalTypePanel;
+import de.hapebe.cyhi.ui.lesson.TypePanel;
 
 public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 
@@ -102,13 +98,13 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	ButtonGroup baseToneGroup;
 	ArrayList<JRadioButton> baseToneRadioButtons;
 
-	JPanel genderPanel;
-	JPanel genderRadioButtonPanel;
-	ButtonGroup genderGroup;
-	List<JRadioButton> genderRadioButtons;
-	JPanel intervalRadioButtonPanel;
-	ButtonGroup intervalGroup;
-	ArrayList<JRadioButton> intervalRadioButtons;
+	TypePanel genderPanel;
+	ChordTypePanel chordTypePanel;
+//	ButtonGroup genderGroup;
+//	List<JRadioButton> genderRadioButtons;
+	IntervalTypePanel intervalTypePanel;
+//	ButtonGroup intervalGroup;
+//	List<JRadioButton> intervalRadioButtons;
 
 	JPanel controlPanel;
 	JLabel controlPanelNameLabel;
@@ -138,9 +134,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	IntervalType intervalTypeChoice = null;
 
 	protected final int LESSON_LENGTH = 10;
-	Lesson lesson = new Lesson(Lesson.TYPE_INTERVAL_LESSON, LESSON_LENGTH);
-
-	// int[][] lessonStats;
+	Lesson lesson; // new Lesson(Lesson.TYPE_INTERVAL_LESSON, LESSON_LENGTH);
 
 	AudioClip[] ac = new AudioClip[43];
 
@@ -423,44 +417,12 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	}
 
 	void initGenderPanel() {
-		// chord types
-		genderPanel = new JPanel();
+		chordTypePanel = new ChordTypePanel(this);
+
+		intervalTypePanel = new IntervalTypePanel(this);
+
+		genderPanel = new TypePanel(intervalTypePanel, chordTypePanel);
 		genderPanel.setBounds(0, 130, 480, 80);
-		genderPanel.setPreferredSize(new Dimension(480, 80));
-		genderPanel.setBorder(BorderFactory.createTitledBorder("type"));
-		genderPanel.setLayout(new GridLayout(2, 1));
-
-		genderRadioButtonPanel = new JPanel();
-		genderRadioButtonPanel.setLayout(new GridLayout(1, ChordType.TYPES.size()));
-		genderGroup = new ButtonGroup();
-		genderRadioButtons = new ArrayList<JRadioButton>();
-		for (ChordType t : ChordType.TYPES) {
-			JRadioButton b = new JRadioButton(t.getName());
-			b.setActionCommand("chord:" + t.getCode());
-			b.setEnabled(true);
-			b.addActionListener(this);
-			genderGroup.add(b);
-			genderRadioButtonPanel.add(b);
-			genderRadioButtons.add(b);
-		}
-
-		// interval types
-		intervalRadioButtonPanel = new JPanel();
-		intervalRadioButtonPanel.setLayout(new GridLayout(1, 12));
-		intervalRadioButtons = new ArrayList<JRadioButton>();
-		intervalGroup = new ButtonGroup();
-		for (IntervalType t : IntervalType.TYPES) {
-			JRadioButton b = new JRadioButton(t.getName());
-			b.setActionCommand("interval:" + t.getCode());
-			b.setEnabled(true);
-			b.addActionListener(this);
-			intervalGroup.add(b);
-			intervalRadioButtonPanel.add(b);
-			intervalRadioButtons.add(b);
-		}
-
-		// genderPanel.add(genderRadioButtonPanel);
-		// genderPanel.add(intervalRadioButtonPanel);
 	}
 
 	void initSubmitPanel() {
@@ -708,6 +670,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		for (JRadioButton b : baseToneRadioButtons) {
 			b.setEnabled(true);
 		}
+		
 		playButton.setEnabled(true);
 		stopButton.setEnabled(true);
 		skipButton.setEnabled(true);
@@ -715,12 +678,8 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	}
 
 	void disableControls() {
-		for (JRadioButton b : baseToneRadioButtons) {
-			b.setEnabled(false);
-		}
-		for (JRadioButton b : genderRadioButtons) {
-			b.setEnabled(false);
-		}
+		genderPanel.disableControls();
+		
 		playButton.setEnabled(false);
 		stopButton.setEnabled(false);
 		skipButton.setEnabled(false);
@@ -734,37 +693,35 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		String cmd = e.getActionCommand();
 		// System.out.println(cmd);
 		if (cmd.equals("Series of Intervals")) {
-			genderPanel.removeAll();
-			genderPanel.add(intervalRadioButtonPanel);
-			genderPanel.validate();
 			// TODO: clean up old lesson?
 			lesson = new Lesson(Lesson.TYPE_INTERVAL_LESSON, LESSON_LENGTH);
 			lesson.initNew();
+			
+			genderPanel.updateFor(lesson);
+			
 			resetLessonStats();
 			statsPanel.repaint();
 			updateControlPanelNameLabel();
 			enableGeneralControls();
 			baseToneGroup.setSelected(null, true);
-			genderGroup.setSelected(null, true);
 		}
 		if (cmd.equals("Series of Chords")) {
-			genderPanel.removeAll();
-			genderPanel.add(genderRadioButtonPanel);
-			genderPanel.validate();
 			// TODO: clean up old lesson?
 			lesson = new Lesson(Lesson.TYPE_CHORD_LESSON, LESSON_LENGTH);
 			lesson.initNew();
+			
+			genderPanel.updateFor(lesson);
+
 			resetLessonStats();
 			statsPanel.repaint();
 			updateControlPanelNameLabel();
 			enableGeneralControls();
 			baseToneGroup.setSelected(null, true);
-			genderGroup.setSelected(null, true);
 		}
 		if (cmd.equals("Save & Quit")) {
 			controlPanelNameLabel.setText("");
 			baseToneGroup.setSelected(null, true);
-			genderGroup.setSelected(null, true);
+			genderPanel.clearSelection();
 			disableControls();
 
 			stats.saveStats(userName + ".dat");
@@ -951,14 +908,14 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 
 	void updateAllUI() {
 		SwingUtilities.updateComponentTreeUI(this);
-		SwingUtilities.updateComponentTreeUI(genderRadioButtonPanel);
-		SwingUtilities.updateComponentTreeUI(intervalRadioButtonPanel);
+		SwingUtilities.updateComponentTreeUI(chordTypePanel);
+		SwingUtilities.updateComponentTreeUI(intervalTypePanel);
 	}
 
 	void endLesson() {
 		controlPanelNameLabel.setText("");
 		baseToneGroup.setSelected(null, true);
-		genderGroup.setSelected(null, true);
+		genderPanel.clearSelection();
 		disableControls();
 	}
 
@@ -1118,10 +1075,10 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		baseToneChoice = -1;
 		chordTypeChoice = null;
 		intervalTypeChoice = null;
+
 		updateControlPanelNameLabel();
 		baseToneGroup.setSelected(null, true);
-		genderGroup.setSelected(null, true);
-		intervalGroup.setSelected(null, true);
+		genderPanel.clearSelection();
 
 		if (lesson.isAtEnd()) {
 			// final evaluation
@@ -1139,12 +1096,10 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		String workingPath = "n/a";
 		try {
 			workingPath = CanYouHearIt.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-		} catch (URISyntaxException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
 		System.out.println("Current working path : " + workingPath);
-		
 	}
 
 	public static void main(String args[]) {

@@ -1,10 +1,8 @@
 package de.hapebe.cyhi.musical;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 public class ChordType {
 
@@ -98,6 +96,16 @@ public class ChordType {
 		throw new RuntimeException("Assertion failed.");
 	}
 	
+	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ChordType)) return false;
+		ChordType other = (ChordType)obj;
+		
+		if (other.getCode().equals(this.getCode())) return true;
+		return false;
+	}
 
 
 	private ChordType(String code, String name, List<IntervalType> harmonicIntvs) {

@@ -107,9 +107,38 @@ public class Lesson extends ArrayList<LessonTask> {
 		
 	}
 	
+	/**
+	 * @param t Interval Type
+	 * @return true, if this lesson contains any task of type t
+	 */
+	public boolean containsType(IntervalType t) {
+		for (LessonTask lt : this) {
+			if (lt instanceof TheoInterval) {
+				TheoInterval i = (TheoInterval)lt;
+				if (i.getType().equals(t)) return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param t Chord Type
+	 * @return true, if this lesson contains any task of type t
+	 */
+	public boolean containsType(ChordType t) {
+		for (LessonTask lt : this) {
+			if (lt instanceof TheoChord) {
+				TheoChord i = (TheoChord)lt;
+				if (i.getType().equals(t)) return true;
+			}
+		}
+		return false;
+	}
+	
+
 	TheoInterval generateInterval() {
 		// for use with midi:
-		int base = (int) (Math.random() * 36) + 48;
+		int base = (int) (Math.random() * 36) + 36;
 		IntervalType t = IntervalType.Random();
 
 		return new TheoInterval(new TheoNote(base), t);
@@ -129,7 +158,7 @@ public class Lesson extends ArrayList<LessonTask> {
 		// int base = (int)(Math.random()*12)+6;
 
 		// for use with midi:
-		int base = (int) (Math.random() * 36) + 48;
+		int base = (int) (Math.random() * 36) + 36;
 		ChordType t = ChordType.Random();
 
 		return new TheoChord(new TheoNote(base), t);

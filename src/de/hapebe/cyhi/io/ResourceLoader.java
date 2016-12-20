@@ -41,16 +41,8 @@ public class ResourceLoader {
 
 		if (temp == null) System.err.println("Returning null in getImageIcon(" + filename + "," + name + ")");
 		
-		
-//		MediaTracker mt = new MediaTracker();
-//		mt.addImage(temp.getImage(), 0);
-//		try {
-//			mt.waitForAll();
-//		} catch (InterruptedException e) {
-//		}
-		
 		// debug:
-		System.out.println("Returning " + temp.getImage() + " for getImageIcon(" + filename + "," + name + ")");
+		// System.out.println("Returning " + temp.getImage() + " for getImageIcon(" + filename + "," + name + ")");
 		
 		return temp;
 	}

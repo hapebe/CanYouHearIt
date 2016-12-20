@@ -88,7 +88,6 @@ public class StatsPanel extends JPanel implements MouseListener, MouseMotionList
 		// paint stats
 		Lesson lesson = music.getCurrentLesson();
 		int percentage = -1;
-		int red, green;
 		if ((lesson != null) && (!lesson.isEmpty())) {
 			StatsContainer stats = music.getStats();
 			
