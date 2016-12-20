@@ -1,0 +1,59 @@
+<project name="CYHI Build Script" basedir="." default="deploy.local">
+	<property file="build.properties"/>
+	
+	<path id="class.path">
+		<fileset dir="${lib.dir}" includes="*.jar"/>
+	</path>	
+	
+	<target name="-init" depends="clean">
+		<echo>Creating temporary folders...</echo>
+		<mkdir dir="${build.dir}"/>
+	</target>
+	
+	<target name="clean" description="Clean up">
+		<echo>Cleaning up...</echo>
+		<delete dir="${build.dir}"/>
+		<!-- <delete dir="dist/"/> -->
+	</target>
+	
+	<target name="build" depends="-init" description="Build project">
+		<echo>!!! This build task does not actually compile / build the application !!!</echo>
+		<!-- <copy todir="${build.dir}">
+			<fileset dir="${src.dir}"/>
+		</copy> -->
+		<echo>Copying resource files to build folder...</echo>
+		<copy includeemptydirs="false" todir="${bin.dir}">
+			<fileset dir="resources">
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="createJar" depends="build" description="Create JAR file">
+		<mkdir dir="${dist.dir}"/>
+		<jar jarfile="${dist.dir}/cyhi.jar" basedir="${bin.dir}" includes="**/*">
+            <manifest>
+                <attribute name="Main-Class" value="de.hapebe.cyhi.CanYouHearIt"/>
+            </manifest>
+        </jar>
+	</target>	
+	
+    <target name="runJar" depends="createJar" description="Run application from JAR">
+        <java jar="${dist.dir}/cyhi.jar" fork="true"/>
+    </target>
+	
+	<target name="deploy.local" depends="build" description="Deploy to local FS">
+		<echo>Deleting files from local FS...</echo>
+		<delete>
+			<fileset dir="${deploy.dir.local}"/>
+		</delete>
+		
+		<echo>Copying files to local FS...</echo>
+		<copy todir="${deploy.dir.local}">
+			<fileset dir="${dist.dir}"/>
+		</copy>
+		
+		<antcall target="clean"/>
+	</target>
+	
+</project>

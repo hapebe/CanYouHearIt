@@ -1,0 +1,205 @@
+<html>
+<head>
+<title>Help on CanYouHearIt? 1.0</title>
+<link rel="stylesheet" type="text/css" href="style.css">
+<meta name="author" content="Hans-Peter Bergner">
+<meta name="description" content="Help on CanYouHearIt? 1.0">
+<meta name="keywords" content="help, can you hear it?, hapebe, listen, training, music, ear">
+</head>
+
+<body>
+<a href="help_start.html">Overview</a> | <a href="#features">Features</a> | <a href="#user_management">User Management</a>
+| <a href="#applet_application">Applet/Application</a> | <a href="#Requirements">Requirements</a> |
+<a href="#faq">FAQ</a>
+<img src="img/hr2.gif">
+<a name="features"><h2>Features</h2></a>
+In a hurry? Try <a href="#quick_start">Quick Start</a> !
+<ul>
+<li>different users (see <a href="#user_management">User Management</a>)
+<li><a href="#train_interval">train interval recognition</a>
+<li><a href="#train_chord">train chord recognition</a>
+<li><a href="#statistics">collect statistics</a>
+<li>changeable Look&Feel (thanks to Java...)
+</ul>
+
+<img src="img/hr.gif">
+<a name="quick_start"><h3>Quick Start Instructions</h3></a>
+<p>First of all, have you already run the program? For a short function check, just <b>click the icon
+in the top-left corner of this window</b>.
+If that does work, you're lucky - and I'm surprised.
+If you get an error message, you'll have to download and install the Java Runtime Environment 1.3 . See
+<a href="#requirements">Requirements</a> for further help.
+</p>
+<p>When the program is ready, you will see it's Surface. If you get a "Midi not available" error, see <a href="#requirements">Requirements</a>
+<ul>
+<li>Choose <b>Series of Intervals</b> or <b>Series of Chords</b> from the user menu. You are now in a lesson!
+<li>Now Press the <b>Play Button</b> You hear the sound you should analyze. If you don't hear anything, see <a href="#faq_nosound">FAQ</a>.
+<li>Choose the base tone and the type of the sound. Just click on one of the buttons.
+<li>If you're sure you can't guess any better, press <b>Guess</b>.
+<li>You get an evaluation of your trial now, then it's up for the next task. Again <b>Play</b> and so on...
+<li>Your current progress in the lesson is shown below the Play and Stop button. One Lesson consists of 50 exercises.
+If you're finished with a lesson, you get a more comprehensive evaluation screen, and then you're free to start something new.
+Just in case you don't want to fulfil all these tasks just now, or anyway at anytime, you can activate
+<b>Save&amp;Exit</b> from the File Menu. It's then, that you're shown a message that should make you read on at <a href="#applet_application">Applet/Application</a>.
+</ul>
+That's all you absolutely need to know.
+</p>
+
+<img src="img/hr.gif">
+<a name="train_interval"><h3>Train interval recognition</h3></a>
+<p>Choose <b><u>U</u>ser</b> / <b>Tra<u>i</u>n Intervals</b> to start a lesson of this type.</p>
+<p>This lesson type create <b>randomly chosen intervals between a minor second and an octave</b>.
+The base tone can vary from C1 to C5, i.e. the higher, second tone can be C#1 to C6.
+The two notes are played as a chord, when you press the play button.
+<b>You should specify the base tone and the interval</b> (defining the second note, too.) by pressing
+the appropriate buttons. <b>You can omit these clicks</b>, but that will be taken as wrong.
+If you're sure you can't do better, <b>press <u>G</u>uess</b>. After the evaluation message,
+the lesson continues with the next interval.
+</p>
+<p>In the type button field there are some <b>abbreviations</b>:
+<ul>
+<li> <b>&lt;</b> means a minor interval ( "&lt;2" means minor second )
+<li> <b>&gt;</b> means a major interval
+<li> tt stands for Tritonus (the interval that consists of three whole notes)
+</ul>
+If you are worried about your success rate concerning base tones: <a href="#absolute">note on absolute hearing</a>
+</p>
+
+<img src="img/hr.gif">
+<a name="train_chord"><h3>Train chord recognition</h3></a>
+<p>Choose <b><u>U</u>ser</b> / <b>Train <u>C</u>hords</b> to start a lesson of this type.</p>
+<p>This lesson type creates <b>randomly chosen chords</b> of certain types (see <a href="#chord_type_abbr">Abbreviation Table</a>).
+The base tone can vary from C1 to C5, the additional notes are all higher in the current version.
+The chord sounds when you press the play button.
+<b>You should specify the base tone and the chord type</b> by pressing
+the appropriate buttons. <b>You can omit these clicks</b>, but that will be taken as wrong.
+If you're sure you can't do better, <b>press <u>G</u>uess</b>. After the evaluation message,
+the lesson continues with the next chord.
+</p>
+<p>In the type button field there are some <b>abbreviations</b>:
+</p>
+<a name="#chord_type_abbr"></a>
+<p><u>Abbrevation Table</u></p>
+<table border=1>
+<tr><th>Abbreviation</th><th>Explanation</th><th>contains another...</th></tr>
+<tr><td><b>maj</b></td><td>plain major chord</td><td>&nbsp;</td></tr>
+<tr><td><b>min</b></td><td>plain minor chord</td><td>&nbsp;</td></tr>
+<tr><td><b>1+5</b></td><td>ok, not a real chord: just the prime note and its fifth</td><td>&nbsp;</td></tr>
+<tr><td><b>dim</b></td><td>dimished chord: prime, minor third, diminished fifth(=tritonus)</td><td>&nbsp;</td></tr>
+<tr><td><b>aug</b></td><td>augmented chord: prime, major third, augmented fifth(=minor sixth)</td><td>&nbsp;</td></tr>
+<tr><td><b>maj7</b></td><td>major chord with added minor seventh</td><td>diminished chord</td></tr>
+<tr><td><b>min7</b></td><td>minor chord, added minor seventh</td><td>major chord</td></tr>
+<tr><td><b>maj7+</b></td><td>major chord, added major seventh</td><td>minor chord</td></tr>
+<tr><td><b>min7+</b></td><td>minor chord, added major seventh</td><td>augmented chord</td></tr>
+</table>
+If you are worried about your success rate concerning base tones: <a href="#absolute">note on absolute hearing</a>
+</p>
+
+<img src="img/hr.gif">
+<a name="statistics"><h3>Statistics</h3></a>
+<p>"Can You Hear It?" records your success and failure...<br>
+While practising a type of lesson, you see a colorful section on the right. In general, green means
+good and red means bad. The stats are assorted by the <i>type</i> of sound and additionally, for the
+every single <i>base tone and type</i>. If you move your mouse over a single section of the stats, a
+tooltip appears telling you your overall performance on that special item.
+</p>
+<p>Some notes on the statistics:
+<ul>
+<li><b>Stats can only be saved from session to session in Application mode!</b> (<a href="#applet_application">Applet/Application</a>)
+<li>Stats are automatically loaded on every user login.
+<li>Stats are automatically saved on exit or switch user.
+<li>The length of the color bars increases with the number of trials on the concerned sound.
+<li><b>Stats are only modified after a guess. Starting a new lesson or quitting etc. doesn't affect the stats.</b>
+<li><b>Don't panic if you see nothing: Stats are only visible during a lesson.</b>
+</ul>
+</p>
+
+<img src="img/hr2.gif">
+<a name="user_management"><h2>User Management</h2></a>
+<p>This feature applies only to the Application Mode. (<a href="#applet_application">Applet/Application</a>)
+"Can You Hear It?" supports more than one user at one machine.
+<ul><li>Every user has his or her own stats record.</ul>
+That makes it easier for everyone to keep track of one's progress. For the moment, the different user accounts are
+<i>not</i> secured by a password or such a thing. Probably I'll include that in future versions.<br>
+The usage is very simple, indeed:<br>
+When you launch "Can You Hear It?" as an Application, you're immediately prompted for your user name.
+<ul><li>If, right now, you have never chosen one before: just type in any name you want. That's your user name now.</ul>
+The current user is now showing in the menu bar (<b><u>U</u>ser:xxxx...</b>). All your efforts are now recorded
+personally for you. The next time you "log in" with the same user name, your statistics are available again.
+If you want to change the current user from the running program, <b><u>S</u>witch User...</b> in the <b><u>U</u>ser menu</b>.
+</p>
+
+<img src="img/hr2.gif">
+<a name="applet_application"><h2>Applet? Application?</h2></a>
+<p>
+"Can You Hear It?" is a Java program. Java provides two ways to run programs on a desktop computer: "Applets" and "Applications".
+Applets are more popular; they are supported by the major internet browsers. That means, they run within common HTML-Pages.
+Applications are (almost) stand-alone programs like any other software on your computer.
+<b>"Can You Hear It?" runs both as an applet and as an application.</b> If you run it in application mode, you profit of
+the application's ability to read and write files. <b>The applet version cannot save&amp;load stats, because applets are not allowed
+to access the file system of your computer.</b><br>
+To run "Can You Hear It?" as an application, you have to
+<ol>
+<li>Add the Java Interpreter to your command path. (Windows users: add <code>path %path%;c:\jre1.3\bin\</code> to your <code>c:\autoexec.bat</code> ,where <code>c:\jre1.3\bin\</code> must be replaced ba the directory containing <code>java.exe</code> . You have to restart your computer, then.)
+<li>Open a shell or command prompt.
+<li>Change directory to the "Can You Hear It?" directory (where you installed it to).
+<li>Type in: <code>java Music<em class="small">&lt;ENTER&gt;</em></code>
+</ol>
+Instead of step 2-4, Windows users simply can double-click <b>cyhi.bat</b> provided in the program directory.<br>
+If you can't start "Can You Hear It?" at all, read on at <a href="#requirements">Requirements</a>.
+</p>
+
+<img src="img/hr2.gif">
+<a name="requirements"><h2>Requirements</h2></a>
+<p>
+Going insane about getting cryptic error messages? Class not found? Well:
+"Can You Hear It?" 1.0 is quite fastidious.<br>
+You need:
+<ul>
+<li><a href="http://java.sun.com/j2se/1.3/jre/"><b>Java 2 Platform Runtime Environment Version 1.3 including Java Plug-In</b></a> for your computer system
+<li>A soundcard with a MIDI synthesizer. With a Non-Windows operation system you should not even need a MIDI capable sound card, but that's something I don't
+know. Those guys at Sun say so.
+</ul>
+The capabilities of your standard browser are <i>not sufficient</i> for this program! "Can You Hear It!" uses progressive sound
+technologies, which aren't available with older Java versions supported by Netscape Navigator or MS Internet Explorer.<br>
+You won't even succeed with a Java 1.2 version on your computer!
+</p>
+
+<img src="img/hr2.gif">
+<a name="faq"><h2>Frequently Asked Questions</h2></a>
+<a name="faq_nosound"><h4>I don't hear any sound at all!</h4></a>
+<p>Are you sure you did not get an error message such as "<code>Couldn't open MIDI Sythesizer</code>"?<br>
+If that is the case, either there is another programm using the MIDI-Syntesizer
+(maybe another instance of the program in another browser window?) or there's a general problem with MIDI synthesis.
+You can check your soundcard configuration and retry.<br>
+If there is no error message but no sound, either: All I can advise you is to check your Speakers/Headphones and their plugs and
+your Mixer Software. Probably MIDI synthesis is deactivated there...?<br>
+Sorry, if that didn't help...
+</p>
+
+<img src="img/hr.gif">
+<h4>Can I improve the quality of sound?</h4>
+<p>Maybe. If you use a Non-Windows System and haven't yet downloaded the "Java Soundbank - deluxe" you could do that.
+<ul><li><a href="http://java.sun.com/products/java-media/sound/"><b>http://java.sun.com/products/java-media/sound/</b></a>
+</ul>
+Download the deluxe soundbanks and follow the Install Directions. The next time you run "Can You Hear It?", you should be able to hear it...
+</p>
+
+<img src="img/hr.gif">
+<h4>Why doesn't the "Mac" Look&Feel work?</h4>
+<p>I don't know; I use the official way to establish it. Ask Sun...</p>
+
+<img src="img/hr.gif">
+<a name="absolute"><h4>How am I supposes to guess base tones?</h4></a>
+<p>Indeed, few people can tell the absolute pitch of some tone as they hear it. However, maybe you are
+one of them?<br>
+As you become more experienced, you will find it useful to determine the current base tone remembering
+the previous one...
+Finally you don't have to worry if you fail most of the time - that's just normal amongst amateurs.
+</p>
+
+<img src="img/hr2.gif">
+
+<center><table><tr><td class="small">Java&reg; is a trademark of Sun Microsystems Inc.</td></tr></table></center>
+</body>
+</html>
