@@ -1,5 +1,7 @@
 package de.hapebe.cyhi.musical;
 
+import java.util.StringTokenizer;
+
 import de.hapebe.cyhi.logical.LessonTask;
 
 /**
@@ -17,6 +19,13 @@ public class TheoInterval implements LessonTask {
 	 */
 	boolean direction;
 	
+	/**
+	 * this constructor is used when re-creating TheoIntervals from JSON data
+	 */
+	public TheoInterval() {
+		
+	}
+	
 	public TheoInterval(TheoNote baseNote, IntervalType type) {
 		this(baseNote, type, true);
 	}
@@ -32,6 +41,10 @@ public class TheoInterval implements LessonTask {
 		this.type = type;
 		this.direction = direction;
 		
+		init();
+	}
+	
+	private void init() {
 		int halfToneDistance = type.getHalftoneDistance();
 		if (!direction) halfToneDistance *= -1;
 		
@@ -66,5 +79,48 @@ public class TheoInterval implements LessonTask {
 	
 	public String toString() {
 		return getBaseNote().getCode() + (getDirection()?" + ":" - ") + getType().getName();
+	}
+
+	@Override
+	public String toShortCode() {
+		return getClass().getSimpleName() + ":" + getBaseNote().getMIDINote() + ":" + getType().getCode() + ":" + (getDirection()?"up":"down"); 
+	}
+
+	@Override
+	public void fromShortCode(String code) {
+		StringTokenizer st = new StringTokenizer(code, ":");
+		
+		if (st.countTokens() != 4) {
+			throw new IllegalArgumentException("Not a valid TheoInterval short code: " + code);
+		}
+		
+		// 1st token: class name
+		String clazz = st.nextToken();
+		if (!clazz.equals(getClass().getSimpleName())) {
+			throw new IllegalArgumentException("Not a TheoInterval short code: " + code);
+		}
+		
+		// 2nd token: base note (MIDI note number)
+		String baseNoteString = st.nextToken();
+		try {
+			int midiNote = Integer.parseInt(baseNoteString);
+			baseNote = new TheoNote(midiNote);
+		} catch (NumberFormatException ex) {
+			throw new IllegalArgumentException("TheoInterval short code: MIDI note error - " + baseNoteString);
+		}
+		
+		// 3rd token: interval type
+		String intervalType = st.nextToken();
+		type = IntervalType.ForCode(intervalType);
+		if (type == null) {
+			throw new IllegalArgumentException("TheoInterval short code: IntervalType error - " + intervalType);
+		}
+
+		// 4th token: direction
+		String directionString = st.nextToken();
+		direction = true; // up - the default case
+		if (directionString.equalsIgnoreCase("down")) direction = false;
+		
+		init();
 	}
 }

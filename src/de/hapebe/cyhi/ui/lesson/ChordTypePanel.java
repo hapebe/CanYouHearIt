@@ -11,7 +11,6 @@ import javax.swing.JRadioButton;
 
 import de.hapebe.cyhi.logical.Lesson;
 import de.hapebe.cyhi.musical.ChordType;
-import de.hapebe.cyhi.musical.IntervalType;
 
 public class ChordTypePanel extends JPanel {
 	

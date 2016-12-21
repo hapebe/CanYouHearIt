@@ -26,7 +26,6 @@ import javax.sound.midi.Synthesizer;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JButton;
@@ -38,12 +37,12 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import de.hapebe.cyhi.io.ResourceLoader;
+import de.hapebe.cyhi.io.StatsIO;
 import de.hapebe.cyhi.logical.Lesson;
 import de.hapebe.cyhi.logical.LessonTask;
 import de.hapebe.cyhi.logical.StatsContainer;
@@ -54,12 +53,14 @@ import de.hapebe.cyhi.musical.TheoChord;
 import de.hapebe.cyhi.musical.TheoInterval;
 import de.hapebe.cyhi.musical.TheoNote;
 import de.hapebe.cyhi.realtime.NoteOffTask;
-import de.hapebe.cyhi.ui.StatsPanel;
 import de.hapebe.cyhi.ui.UserNameDialog;
 import de.hapebe.cyhi.ui.lesson.BaseTonePanel;
 import de.hapebe.cyhi.ui.lesson.ChordTypePanel;
 import de.hapebe.cyhi.ui.lesson.IntervalTypePanel;
 import de.hapebe.cyhi.ui.lesson.TypePanel;
+import de.hapebe.cyhi.ui.stats.ChordStatsPanel;
+import de.hapebe.cyhi.ui.stats.IntervalStatsPanel;
+import de.hapebe.cyhi.ui.stats.StatsPanel;
 
 public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 
@@ -147,7 +148,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		parentFrame = parent;
 	}
 
-	public Lesson getCurrentLesson() {
+	public Lesson getLesson() {
 		return lesson;
 	}
 
@@ -245,9 +246,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			inputPanel.setBounds(inputPanel.getBounds().x, inputPanel.getBounds().y, inputPanel.getBounds().width,
 					contentPane.getBounds().height);
 			inputPanel.validate();
-			statsPanel.setBounds(statsPanel.getBounds().x, statsPanel.getBounds().y,
-					contentPane.getBounds().width - inputPanel.getBounds().width, contentPane.getBounds().height);
-			statsPanel.validate();
 			firstTime = false;
 			repaint();
 
@@ -255,11 +253,8 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 				setUserName("anonymous");
 				// while (userName == null) promptUser();
 				
-				stats = StatsContainer.load(userName + ".dat");
-				if (stats == null)
-					stats = new StatsContainer();
-
-				statsPanel.repaint();
+				stats = StatsIO.getInstance().loadStats(userName + "-stats.json");
+				if (statsPanel != null)	statsPanel.repaint();
 			} else {
 				userName = "applet user";
 			}
@@ -308,11 +303,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		inputPanel.setBounds(0, 0, 480, 400);
 		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 
-		statsPanel = new StatsPanel();
-		statsPanel.music = this;
-		Dimension size = statsPanel.getPreferredSize();
-		statsPanel.setBounds(480, 0, size.width, size.height);
-
 		initBaseTonePanel();
 		initGenderPanel();
 		initControlPanel();
@@ -327,8 +317,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		// ***************************************************
 		contentPane.add(inputPanel);
 		inputPanel.validate();
-		contentPane.add(statsPanel);
-		statsPanel.validate();
 
 		contentPane.validate();
 		contentPane.repaint();
@@ -543,6 +531,9 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	}
 
 	public void openMidi() {
+		boolean failure = false;
+		String failureMessage = "";
+		
 		try {
 			if (synthesizer == null) {
 				MidiDevice.Info[] mdi = MidiSystem.getMidiDeviceInfo();
@@ -558,24 +549,31 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			}
 
 			if (synthesizer == null) {
-				if ((synthesizer = MidiSystem.getSynthesizer()) == null) {
-					System.out.println("MidiSystem.getSynthesizer() failed!");
-					return;
+				synthesizer = MidiSystem.getSynthesizer();
+				if (synthesizer == null) {
+					failure = true;
+					failureMessage = "Couldn't find a MIDI synthesizer.\n(MidiSystem.getSynthesizer() failed.)";
 				}
 			}
 
 			try {
 				synthesizer.open();
 			} catch (MidiUnavailableException e) {
-				JOptionPane.showMessageDialog(this,
-						"Couldn't open MIDI synthesizer.\n  Probably another programm using synthesizer?\n  might as well be a JAVA problem...\n  ...or a BUG!?!",
-						"Midi not available", JOptionPane.INFORMATION_MESSAGE, null);
-				if (!appletMode)
-					System.exit(-1);
+				failure = true;
+				failureMessage = "Couldn't open MIDI synthesizer.\n  Probably another programm using synthesizer?\n  might as well be a JAVA problem...\n  ...or a BUG!?!";
 			}
 
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			failure = true;
+			failureMessage = ex.getMessage();
+		}
+		
+		if (failure) {
+			JOptionPane.showMessageDialog(this, failureMessage, "MIDI not available", JOptionPane.ERROR_MESSAGE, null);
+			
+			if (!appletMode)
+				System.exit(-1);
+			
 			return;
 		}
 
@@ -602,7 +600,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	}
 
 	public void start() {
-
 		validate();
 
 		if (runner == null) {
@@ -612,12 +609,8 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	}
 
 	public void stop() {
-
 		stopMusic();
-		if ((userName != null)) {
-			stats.saveStats(userName + ".dat");
-		}
-
+		
 		if (runner != null) {
 			runner = null;
 		}
@@ -667,6 +660,48 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		skipButton.setEnabled(false);
 		submitButton.setEnabled(false);
 	}
+	
+	private void endLesson() {
+		controlPanelNameLabel.setText("");
+		baseTonePanel.clearSelection();
+		genderPanel.clearSelection();
+		disableControls();
+		
+		if (statsPanel != null) {
+			contentPane.remove(statsPanel);
+			contentPane.validate();
+			
+			statsPanel = null;
+		}
+	}
+
+	private void startNewLesson(int lessonType) {
+		lesson = new Lesson(lessonType, LESSON_LENGTH);
+		lesson.initNew();
+		
+		genderPanel.updateFor(lesson);
+		baseTonePanel.updateFor(lesson);
+		
+		updateControlPanelNameLabel();
+		enableGeneralControls();
+		
+		if (lessonType == Lesson.TYPE_INTERVAL_LESSON) {
+			statsPanel = new IntervalStatsPanel(this);
+		} else if (lessonType == Lesson.TYPE_CHORD_LESSON) {
+			statsPanel = new ChordStatsPanel(this);
+		} else {
+			System.err.println("Cannot start a lesson of type " + lessonType + ".");
+		}
+		Dimension size = statsPanel.getPreferredSize();
+		statsPanel.setBounds(480, 0, size.width, size.height);
+		// statsPanel.setBounds(statsPanel.getBounds().x, statsPanel.getBounds().y,	contentPane.getBounds().width - inputPanel.getBounds().width, contentPane.getBounds().height);
+		statsPanel.validate();
+		
+		contentPane.add(statsPanel);
+		
+		statsPanel.validate();
+		statsPanel.repaint();
+	}
 
 	// *******************************************
 	public void actionPerformed(ActionEvent e) {
@@ -676,29 +711,11 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		// System.out.println(cmd);
 		if (cmd.equals("Series of Intervals")) {
 			// TODO: clean up old lesson?
-			lesson = new Lesson(Lesson.TYPE_INTERVAL_LESSON, LESSON_LENGTH);
-			lesson.initNew();
-			
-			genderPanel.updateFor(lesson);
-			baseTonePanel.updateFor(lesson);
-			
-			resetLessonStats();
-			statsPanel.repaint();
-			updateControlPanelNameLabel();
-			enableGeneralControls();
+			startNewLesson(Lesson.TYPE_INTERVAL_LESSON);
 		}
 		if (cmd.equals("Series of Chords")) {
 			// TODO: clean up old lesson?
-			lesson = new Lesson(Lesson.TYPE_CHORD_LESSON, LESSON_LENGTH);
-			lesson.initNew();
-			
-			genderPanel.updateFor(lesson);
-			baseTonePanel.updateFor(lesson);
-
-			resetLessonStats();
-			statsPanel.repaint();
-			updateControlPanelNameLabel();
-			enableGeneralControls();
+			startNewLesson(Lesson.TYPE_CHORD_LESSON);
 		}
 		if (cmd.equals("Save & Quit")) {
 			controlPanelNameLabel.setText("");
@@ -706,7 +723,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			genderPanel.clearSelection();
 			disableControls();
 
-			stats.saveStats(userName + ".dat");
+			StatsIO.getInstance().saveStats(stats, userName + "-stats.json");
 
 			if (!appletMode)
 				System.exit(0);
@@ -817,7 +834,8 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 				lesson.rewind();
 				updateControlPanelNameLabel();
 				disableControls();
-				stats = StatsContainer.load(userName + ".dat");
+				
+				stats = StatsIO.getInstance().loadStats(userName + "-stats.json");
 				statsPanel.repaint();
 			}
 		}
@@ -839,7 +857,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			ImageIcon icon = loader.getImageIcon("img/canyouhearit.gif", "Can You Hear It? 2.0");
 			String[] message = new String[3];
 			message[0] = "version 2.0";
-			message[1] = "©2000,2016 Hans-Peter Bergner";
+			message[1] = "ï¿½2000,2016 Hans-Peter Bergner";
 			message[2] = "www.hapebe.de";
 			JOptionPane.showMessageDialog(this, message, "About \"Can You Hear It?\"...",
 					JOptionPane.INFORMATION_MESSAGE, icon);
@@ -894,13 +912,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		SwingUtilities.updateComponentTreeUI(intervalTypePanel);
 	}
 
-	void endLesson() {
-		controlPanelNameLabel.setText("");
-		baseTonePanel.clearSelection();
-		genderPanel.clearSelection();
-		disableControls();
-	}
-
 	void showLessonStats() {
 		long lessonTime = (System.currentTimeMillis() - lesson.getStartTime()) / 1000;
 		long min = lessonTime / 60;
@@ -912,11 +923,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		message[2] = "time: " + timeString + "min";
 		message[3] = "";
 		JOptionPane.showMessageDialog(this, message, "Finished...", JOptionPane.PLAIN_MESSAGE, null);
-	}
-
-	void resetLessonStats() {
-		lesson.stats().clear();
-		lesson.setStartTime(System.currentTimeMillis());
 	}
 
 	void updateControlPanelNameLabel() {
@@ -989,13 +995,13 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			if (t.getType().equals(chordTypeChoice))
 				typeRight = true;
 
-			lesson.stats().registerChordAttempt(t, typeRight, baseToneRight);
+			stats.getChordStats().registerAttempt(t, typeRight, baseToneRight);
 		} else if (lt instanceof TheoInterval) {
 			TheoInterval i = (TheoInterval) lt;
 			if (i.getType().equals(intervalTypeChoice))
 				typeRight = true;
 
-			lesson.stats().registerIntervalAttempt(i, typeRight, baseToneRight);
+			stats.getIntervalStats().registerAttempt(i, typeRight, baseToneRight);
 		} else {
 			System.err.println("Unexpected LessonTask: " + lt);
 		}
@@ -1046,11 +1052,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		JOptionPane.showMessageDialog(this, message + "\n" + lesson.getCurrentTask().getName() + afterMessage, "Result",
 				JOptionPane.INFORMATION_MESSAGE, icon);
 
-		if (lesson.isAtEnd()) {
-			endLesson();
-			showLessonStats();
-			lesson = null;
-		} else {
+		if (!lesson.isAtEnd()) {
 			lesson.goToNextTask();
 		}
 
@@ -1063,9 +1065,12 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		genderPanel.clearSelection();
 
 		if (lesson.isAtEnd()) {
-			// final evaluation
 			controlPanelNameLabel.setText("");
 			disableControls();
+			showLessonStats(); // final evaluation
+			
+			endLesson();
+			lesson = null;
 		}
 
 		statsPanel.repaint();

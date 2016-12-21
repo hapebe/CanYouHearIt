@@ -9,161 +9,100 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
+import javax.json.JsonObjectBuilder;
+import javax.json.JsonValue;
+
+import de.hapebe.cyhi.io.Jsonable;
 import de.hapebe.cyhi.musical.ChordType;
 import de.hapebe.cyhi.musical.IntervalType;
 import de.hapebe.cyhi.musical.TheoChord;
 import de.hapebe.cyhi.musical.TheoInterval;
 
-public class StatsContainer implements Serializable {
+public class StatsContainer implements Jsonable {
 	
-	private static final long serialVersionUID = 7861255329251280671L;
+	IntervalStats intervalStats;
+	ChordStats chordStats;
 	
-	
-	final TaskResultSeries intervalAttempts;
-	final TaskResultSeries chordAttempts;
-	
-	final Map<IntervalType, TaskResultSeries> intervalAttemptsByType;
-	final Map<ChordType, TaskResultSeries> chordAttemptsByType;
-	
-	final TaskResultSeries EMTPY = new TaskResultSeries();
-	
-	public StatsContainer() {
-		super();
-		intervalAttempts = new TaskResultSeries();
-		chordAttempts = new TaskResultSeries();
-
-		intervalAttemptsByType = new HashMap<IntervalType, TaskResultSeries>();
-		chordAttemptsByType = new HashMap<ChordType, TaskResultSeries>();
+	public IntervalStats getIntervalStats() {
+		return intervalStats;
 	}
 
-	public void clear() {
-		intervalAttempts.clear();
-		chordAttempts.clear();
+	public void setIntervalStats(IntervalStats intervalStats) {
+		this.intervalStats = intervalStats;
+	}
 
-		intervalAttemptsByType.clear();
-		chordAttemptsByType.clear();
+	public ChordStats getChordStats() {
+		return chordStats;
+	}
+
+	public void setChordStats(ChordStats chordStats) {
+		this.chordStats = chordStats;
 	}
 
 
-	public TaskResultSeries getIntervalAttempts() {
-		return intervalAttempts;
-	}
-
-
-	public TaskResultSeries getIntervalAttemptsByType(IntervalType type) {
-		TaskResultSeries trs = intervalAttemptsByType.get(type);
-		if (trs == null) return EMTPY;
-		return trs;
-	}
-
-	public TaskResultSeries getChordAttempts() {
-		return chordAttempts;
-	}
-
-	public TaskResultSeries getChordAttemptsByType(ChordType type) {
-		TaskResultSeries trs = chordAttemptsByType.get(type);
-		if (trs == null) return EMTPY;
-		return trs;
-	}
-
-
-	public void registerIntervalAttempt(TheoInterval i, boolean typeSuccess, boolean baseToneSuccess) {
-		byte typeStatus = typeSuccess ? TaskResult.SUCCESS : TaskResult.FAILURE;
-		byte baseToneStatus = baseToneSuccess ? TaskResult.SUCCESS : TaskResult.FAILURE;
-		
-		this.registerAttempt(new TaskResult(i, typeStatus, baseToneStatus));
-	}
-
-	public void registerChordAttempt(TheoChord c, boolean typeSuccess, boolean baseToneSuccess) {
-		byte typeStatus = typeSuccess ? TaskResult.SUCCESS : TaskResult.FAILURE;
-		byte baseToneStatus = baseToneSuccess ? TaskResult.SUCCESS : TaskResult.FAILURE;
-		
-		this.registerAttempt(new TaskResult(c, typeStatus, baseToneStatus));
-	}
-	
-	private void registerAttempt(TaskResult tr) {
-		LessonTask lt = tr.getLessonTask();
-		
-		if (lt instanceof TheoChord) {
-			getChordAttempts().add(tr); // mixed chord attempts
-	
-			TheoChord c = (TheoChord)lt; 
-			ChordType type = c.getType();
-			TaskResultSeries attemptsByType = chordAttemptsByType.get(type);
-			if (attemptsByType == null) {
-				attemptsByType = new TaskResultSeries();
-				chordAttemptsByType.put(type, attemptsByType);
-			}
-			attemptsByType.add(tr); // chord attempts by type
-			
-		} else if (lt instanceof TheoInterval) {
-			getIntervalAttempts().add(tr); // mixed interval attempts
-			
-			TheoInterval intv = (TheoInterval)tr.getLessonTask();
-			IntervalType type = intv.getType();
-			TaskResultSeries attemptsByType = intervalAttemptsByType.get(type);
-			if (attemptsByType == null) {
-				attemptsByType = new TaskResultSeries();
-				intervalAttemptsByType.put(type, attemptsByType);
-			}
-			attemptsByType.add(tr); // interval attempts by type
-			
-		} else {
-			System.err.println("Unexpected type of TaskResult for LessonTask: " + lt);
-		}
-	}
-	
 	/**
 	 * add the contents of another StatsContainer to this one - e.g. the results of one lesson to the master / global stats.
 	 * @param other a different instance of StatsContainer (should only be added once, and possibly cleared afterwards, for data purity's sake)
 	 */
 	public void add(StatsContainer other) {
-		for (TaskResult tr : other.getChordAttempts()) {
-			this.registerAttempt(tr);
+		// intervals:
+		if (this.getIntervalStats() != null) {
+			if (other.getIntervalStats() != null) {
+				this.getIntervalStats().add(other.getIntervalStats());
+			}
+		} else {
+			if (other.getIntervalStats() != null) this.setIntervalStats(other.getIntervalStats());
 		}
-		for (TaskResult tr : other.getIntervalAttempts()) {
-			this.registerAttempt(tr);
+		
+		// chords:
+		if (this.getChordStats() != null) {
+			if (other.getChordStats() != null) {
+				this.getChordStats().add(other.getChordStats());
+			}
+		} else {
+			if (other.getChordStats() != null) this.setChordStats(other.getChordStats());
 		}
 	}
 
 	
-	public void saveStats(String filename) {
-		ObjectOutputStream oos = null;
+	@Override
+	public JsonObject toJSON() {
+		JsonObjectBuilder b = Json.createObjectBuilder();
+
+		b.add("type", getClass().getSimpleName());
 		
-		try {
-			oos = new ObjectOutputStream(new FileOutputStream(filename));
-		} catch (IOException e) {
-			System.err.println("Couldn't create ObjectOutputStream to " + filename + " .");
-		}
-		try {
-			oos.writeObject(this);
-			oos.close();
-		} catch (IOException e) {
-			System.err.println("Couldn't write stats to " + filename + " .");
-		}
+		b.add(getIntervalStats().getClass().getSimpleName(), getIntervalStats().toJSON());
+		b.add(getChordStats().getClass().getSimpleName(), getChordStats().toJSON());
+		
+		return b.build();
 	}
 
-	public static StatsContainer load(String filename) {
-		StatsContainer retval = null;
+	@Override
+	public void fromJSON(JsonObject o) {
+		setIntervalStats(null);
+		setChordStats(null);
 		
-		ObjectInputStream ois = null;
-		
-		try {
-			ois = new ObjectInputStream(new FileInputStream(filename));
-		} catch (IOException e) {
-			System.err.println("Couldn't create ObjectInputStream from " + filename + " .");
+		String type = o.getString("type");
+		if (!type.equals(getClass().getSimpleName())) {
+			throw new IllegalArgumentException("Not a StatsContainer JSON object - type: " + type);
 		}
-		if (ois != null) {
-			try {
-				retval = (StatsContainer) ois.readObject();
-				ois.close();
-			} catch (Exception e) {
-				System.err.println("Couldn't read stats from " + filename + " .");
-				System.err.println(e.toString());
-			}
-		} // endif ois!=null
 		
-		return retval;
+		JsonObject intervals = o.getJsonObject(IntervalStats.class.getSimpleName());
+		if (intervals != null) {
+			intervalStats = new IntervalStats();
+			intervalStats.fromJSON(intervals);
+		}
+		
+		JsonObject chords = o.getJsonObject(ChordStats.class.getSimpleName());
+		if (chords != null) {
+			chordStats = new ChordStats();
+			chordStats.fromJSON(chords);
+		}
 	}
+	
 	
 }

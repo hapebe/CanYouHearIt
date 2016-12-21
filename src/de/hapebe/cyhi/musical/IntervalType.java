@@ -16,17 +16,17 @@ import java.util.Random;
 public class IntervalType implements Comparable<Object> {
 
 	public final static IntervalType UNISON = new IntervalType(0, "1", "Unison", "Unisons"); 
-	public final static IntervalType MINOR_SECOND = new IntervalType(1, "<2", "Minor Second", "Minor Seconds"); 
-	public final static IntervalType MAJOR_SECOND = new IntervalType(2, ">2", "Major Second", "Major Seconds"); 
-	public final static IntervalType MINOR_THIRD = new IntervalType(3, "<3", "Minor Third", "Minor Thirds"); 
-	public final static IntervalType MAJOR_THIRD = new IntervalType(4, ">3", "Major Third", "Major Thirds"); 
+	public final static IntervalType MINOR_SECOND = new IntervalType(1, "2-", "Minor Second", "Minor Seconds"); 
+	public final static IntervalType MAJOR_SECOND = new IntervalType(2, "2+", "Major Second", "Major Seconds"); 
+	public final static IntervalType MINOR_THIRD = new IntervalType(3, "3-", "Minor Third", "Minor Thirds"); 
+	public final static IntervalType MAJOR_THIRD = new IntervalType(4, "3-", "Major Third", "Major Thirds"); 
 	public final static IntervalType FOURTH = new IntervalType(5, "4", "Fourth", "Fourths"); 
 	public final static IntervalType TRITONE = new IntervalType(6, "tt", "Tritone", "Tritones"); 
 	public final static IntervalType FIFTH = new IntervalType(7, "5", "Fifth", "Fifths"); 
-	public final static IntervalType MINOR_SIXTH = new IntervalType(8, "<6", "Minor Sixth", "Minor Sixths"); 
-	public final static IntervalType MAJOR_SIXTH = new IntervalType(9, ">6", "Major Sixth", "Major Sixths"); 
-	public final static IntervalType MINOR_SEVENTH = new IntervalType(10, "<7", "Minor Seventh", "Minor Sevenths"); 
-	public final static IntervalType MAJOR_SEVENTH = new IntervalType(11, ">7", "Major Seventh", "Major Sevenths"); 
+	public final static IntervalType MINOR_SIXTH = new IntervalType(8, "6-", "Minor Sixth", "Minor Sixths"); 
+	public final static IntervalType MAJOR_SIXTH = new IntervalType(9, "6+", "Major Sixth", "Major Sixths"); 
+	public final static IntervalType MINOR_SEVENTH = new IntervalType(10, "7-", "Minor Seventh", "Minor Sevenths"); 
+	public final static IntervalType MAJOR_SEVENTH = new IntervalType(11, "7+", "Major Seventh", "Major Sevenths"); 
 	public final static IntervalType OCTAVE = new IntervalType(12, "8", "Octave", "Octaves"); 
 	
 	public final static List<IntervalType> TYPES = new ArrayList<IntervalType>();

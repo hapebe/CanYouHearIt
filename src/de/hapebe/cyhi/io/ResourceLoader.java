@@ -37,6 +37,9 @@ public class ResourceLoader {
 		} catch (IOException e) {
 			System.err.println("Couldn't open image file " + filename + ": " + e.getMessage());
 			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			System.err.println("Couldn't open image file " + filename + ": " + e.getMessage());
+			e.printStackTrace();
 		}
 
 		if (temp == null) System.err.println("Returning null in getImageIcon(" + filename + "," + name + ")");
