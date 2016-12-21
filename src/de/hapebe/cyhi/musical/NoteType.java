@@ -1,9 +1,11 @@
 package de.hapebe.cyhi.musical;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class NoteType implements Comparable {
+public class NoteType implements Comparable<NoteType> {
 	
 	public final static NoteType C = new NoteType(60, "C", "C");
 	public final static NoteType CIS = new NoteType(61, "C#", "C sharp");
@@ -43,6 +45,23 @@ public class NoteType implements Comparable {
 		TYPES.add(AIS);
 		TYPES.add(BES);
 		TYPES.add(B);
+	}
+	
+	public final static List<NoteType> DISTINCT_TYPES = new ArrayList<NoteType>();
+	
+	static {
+		DISTINCT_TYPES.add(C);
+		DISTINCT_TYPES.add(CIS);
+		DISTINCT_TYPES.add(D);
+		DISTINCT_TYPES.add(ES);
+		DISTINCT_TYPES.add(E);
+		DISTINCT_TYPES.add(F);
+		DISTINCT_TYPES.add(FIS);
+		DISTINCT_TYPES.add(G);
+		DISTINCT_TYPES.add(AS);
+		DISTINCT_TYPES.add(A);
+		DISTINCT_TYPES.add(BES);
+		DISTINCT_TYPES.add(B);
 	}
 	
 	public int getMidiNote() {
@@ -132,11 +151,8 @@ public class NoteType implements Comparable {
 	}
 
 	@Override
-	public int compareTo(Object obj) {
-		if (!(obj instanceof NoteType)) throw new IllegalArgumentException("Cannot compare NoteType with " + obj.getClass().getSimpleName() + "!");
-		NoteType otherNT = (NoteType)obj;
-		return this.hashCode() - otherNT.hashCode();
+	public int compareTo(NoteType other) {
+		return this.hashCode() - other.hashCode();
 	}
 
-	
 }

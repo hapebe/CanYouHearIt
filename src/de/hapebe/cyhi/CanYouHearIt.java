@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -57,6 +56,7 @@ import de.hapebe.cyhi.musical.TheoNote;
 import de.hapebe.cyhi.realtime.NoteOffTask;
 import de.hapebe.cyhi.ui.StatsPanel;
 import de.hapebe.cyhi.ui.UserNameDialog;
+import de.hapebe.cyhi.ui.lesson.BaseTonePanel;
 import de.hapebe.cyhi.ui.lesson.ChordTypePanel;
 import de.hapebe.cyhi.ui.lesson.IntervalTypePanel;
 import de.hapebe.cyhi.ui.lesson.TypePanel;
@@ -79,7 +79,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 
 	JPanel inputPanel;
 
-	StatsContainer stats = new StatsContainer();
+	StatsContainer stats;
 	StatsPanel statsPanel;
 
 	JMenuBar menuBar;
@@ -94,9 +94,9 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	JCheckBoxMenuItem miSystem;
 	JMenu helpMenu;
 
-	JPanel baseTonePanel;
-	ButtonGroup baseToneGroup;
-	ArrayList<JRadioButton> baseToneRadioButtons;
+	BaseTonePanel baseTonePanel;
+//	ButtonGroup baseToneGroup;
+//	ArrayList<JRadioButton> baseToneRadioButtons;
 
 	TypePanel genderPanel;
 	ChordTypePanel chordTypePanel;
@@ -395,25 +395,9 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	}
 
 	void initBaseTonePanel() {
-		baseTonePanel = new JPanel();
-		baseTonePanel.setBounds(0, 70, 480, 60);
-		baseTonePanel.setPreferredSize(new Dimension(480, 60));
-		baseTonePanel.setBorder(BorderFactory.createTitledBorder("base tone"));
-		baseTonePanel.setLayout(new GridLayout(1, 12));
-
-		baseToneRadioButtons = new ArrayList<JRadioButton>();
-		baseToneGroup = new ButtonGroup();
-		for (int i = 0; i < 12; i++) {
-			TheoNote n = new TheoNote(i + 60);
-
-			JRadioButton b = new JRadioButton(n.getCode());
-			b.setActionCommand("basetone:" + n.getCode());
-			b.setEnabled(false);
-			b.addActionListener(this);
-			baseToneGroup.add(b);
-			baseTonePanel.add(b);
-			baseToneRadioButtons.add(b);
-		}
+		baseTonePanel = new BaseTonePanel(this);
+		Dimension prefSize = baseTonePanel.getPreferredSize();
+		baseTonePanel.setBounds(0, 70, prefSize.width, prefSize.height);
 	}
 
 	void initGenderPanel() {
@@ -667,9 +651,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	}
 
 	void enableGeneralControls() {
-		for (JRadioButton b : baseToneRadioButtons) {
-			b.setEnabled(true);
-		}
+		baseTonePanel.enableControls(lesson);
 		
 		playButton.setEnabled(true);
 		stopButton.setEnabled(true);
@@ -698,12 +680,12 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			lesson.initNew();
 			
 			genderPanel.updateFor(lesson);
+			baseTonePanel.updateFor(lesson);
 			
 			resetLessonStats();
 			statsPanel.repaint();
 			updateControlPanelNameLabel();
 			enableGeneralControls();
-			baseToneGroup.setSelected(null, true);
 		}
 		if (cmd.equals("Series of Chords")) {
 			// TODO: clean up old lesson?
@@ -711,16 +693,16 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			lesson.initNew();
 			
 			genderPanel.updateFor(lesson);
+			baseTonePanel.updateFor(lesson);
 
 			resetLessonStats();
 			statsPanel.repaint();
 			updateControlPanelNameLabel();
 			enableGeneralControls();
-			baseToneGroup.setSelected(null, true);
 		}
 		if (cmd.equals("Save & Quit")) {
 			controlPanelNameLabel.setText("");
-			baseToneGroup.setSelected(null, true);
+			baseTonePanel.clearSelection();
 			genderPanel.clearSelection();
 			disableControls();
 
@@ -854,10 +836,10 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			}
 		}
 		if (cmd.equals("About")) {
-			ImageIcon icon = loader.getImageIcon("img/canyouhearit.gif", "Can You Hear It? 1.0");
+			ImageIcon icon = loader.getImageIcon("img/canyouhearit.gif", "Can You Hear It? 2.0");
 			String[] message = new String[3];
 			message[0] = "version 2.0";
-			message[1] = "ï¿½2000,2016 Hans-Peter Bergner";
+			message[1] = "©2000,2016 Hans-Peter Bergner";
 			message[2] = "www.hapebe.de";
 			JOptionPane.showMessageDialog(this, message, "About \"Can You Hear It?\"...",
 					JOptionPane.INFORMATION_MESSAGE, icon);
@@ -914,7 +896,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 
 	void endLesson() {
 		controlPanelNameLabel.setText("");
-		baseToneGroup.setSelected(null, true);
+		baseTonePanel.clearSelection();
 		genderPanel.clearSelection();
 		disableControls();
 	}
@@ -1077,7 +1059,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		intervalTypeChoice = null;
 
 		updateControlPanelNameLabel();
-		baseToneGroup.setSelected(null, true);
+		baseTonePanel.clearSelection();
 		genderPanel.clearSelection();
 
 		if (lesson.isAtEnd()) {
