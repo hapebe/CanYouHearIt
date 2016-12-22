@@ -1,26 +1,10 @@
 package de.hapebe.cyhi.logical;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-import javax.json.JsonValue;
 
 import de.hapebe.cyhi.io.Jsonable;
-import de.hapebe.cyhi.musical.ChordType;
-import de.hapebe.cyhi.musical.IntervalType;
-import de.hapebe.cyhi.musical.TheoChord;
-import de.hapebe.cyhi.musical.TheoInterval;
 
 public class StatsContainer implements Jsonable {
 	

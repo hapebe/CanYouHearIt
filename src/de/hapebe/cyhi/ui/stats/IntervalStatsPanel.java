@@ -7,10 +7,7 @@ import java.util.Map;
 
 import de.hapebe.cyhi.CanYouHearIt;
 import de.hapebe.cyhi.logical.IntervalStats;
-import de.hapebe.cyhi.logical.Lesson;
-import de.hapebe.cyhi.logical.StatsContainer;
 import de.hapebe.cyhi.logical.TaskResultSeries;
-import de.hapebe.cyhi.musical.ChordType;
 import de.hapebe.cyhi.musical.IntervalType;
 import de.hapebe.cyhi.musical.NoteType;
 
@@ -35,8 +32,44 @@ public class IntervalStatsPanel extends StatsPanel {
 	public void paint(Graphics g) {
 		super.paint(g);
 		
+		int height = 300;
+		int yOffset = 0;
+		
 		int percentage = -1;
 		IntervalStats stats = music.getStats().getIntervalStats();
+
+		for (IntervalType type : IntervalType.TYPES) {
+			int y = intervalReverseLookup.get(type); // graphical row of this interval type
+
+			TaskResultSeries trs = stats.getAttemptsByType(type);
+			if (!trs.isEmpty()) {
+				percentage = (int)Math.round((double)trs.getTypeSuccessRatio() * 100d);
+			
+				int ySize = trs.getNTypeAttempts();
+				if (ySize < 2) ySize = 2;
+				if (ySize > 24)	ySize = 24;
+				
+				g.setColor(colorForSuccessPercentage(percentage));
+				g.fillRect(0, height - (y * 25) - ySize + yOffset, 39, ySize);
+			}
+
+			// single chord/note stats
+			for (NoteType noteType : NoteType.DISTINCT_TYPES) {
+				TaskResultSeries noteTRS = trs.getFilteredByBaseNote(noteType);
+				
+				int x = noteType.getMidiNote() % 12;
+				
+				if (!noteTRS.isEmpty()) {
+					percentage = (int)Math.round((double)noteTRS.getNoteSuccessRatio() * 100d);
+
+					int ySize = noteTRS.getNNoteAttempts();
+					if (ySize < 2) ySize = 2;
+					if (ySize > 24) ySize = 24;
+					g.setColor(colorForSuccessPercentage(percentage));
+					g.fillRect(x * 10 + 41, height - (y * 25) - ySize + yOffset, 9, ySize);
+				}
+			} // next base note
+		}
 		
 		g.drawImage(uiImages.get("intervalsImage"), 0, 0, null);
 	}

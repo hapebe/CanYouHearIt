@@ -12,9 +12,7 @@ import javax.json.JsonValue;
 
 import de.hapebe.cyhi.io.Jsonable;
 import de.hapebe.cyhi.musical.ChordType;
-import de.hapebe.cyhi.musical.IntervalType;
 import de.hapebe.cyhi.musical.TheoChord;
-import de.hapebe.cyhi.musical.TheoInterval;
 
 public class ChordStats implements Jsonable {
 	final TaskResultSeries attempts;

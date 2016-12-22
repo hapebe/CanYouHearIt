@@ -1,0 +1,412 @@
+{
+  "type": "StatsContainer",
+  "IntervalStats": {
+    "type": "IntervalStats",
+    "attempts": [
+      {
+        "time": 1482408157029,
+        "task": "TheoInterval:53:7+:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408426949,
+        "task": "TheoInterval:52:4:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408464629,
+        "task": "TheoInterval:66:6-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408487086,
+        "task": "TheoInterval:67:5:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408501663,
+        "task": "TheoInterval:40:1:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408560283,
+        "task": "TheoInterval:60:4:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408585213,
+        "task": "TheoInterval:36:tt:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408601358,
+        "task": "TheoInterval:60:2-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408666091,
+        "task": "TheoInterval:66:1:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482408680484,
+        "task": "TheoInterval:43:8:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409231782,
+        "task": "TheoInterval:57:5:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409313803,
+        "task": "TheoInterval:42:3-:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409336653,
+        "task": "TheoInterval:60:5:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409365495,
+        "task": "TheoInterval:65:3-:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409444613,
+        "task": "TheoInterval:49:6-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409457966,
+        "task": "TheoInterval:61:6-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409499008,
+        "task": "TheoInterval:68:1:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409514586,
+        "task": "TheoInterval:60:3-:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482409541108,
+        "task": "TheoInterval:43:2-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      }
+    ]
+  },
+  "ChordStats": {
+    "type": "ChordStats",
+    "attempts": [
+      {
+        "time": 1482409975516,
+        "task": "TheoChord:65:min",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410114326,
+        "task": "TheoChord:69:1+5",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410144784,
+        "task": "TheoChord:58:maj7+",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410769790,
+        "task": "TheoChord:37:maj7",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410786820,
+        "task": "TheoChord:43:maj7",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410812977,
+        "task": "TheoChord:54:maj",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410838614,
+        "task": "TheoChord:69:maj7+",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410853651,
+        "task": "TheoChord:60:maj7",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410872457,
+        "task": "TheoChord:52:maj7",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482410886031,
+        "task": "TheoChord:39:1+5",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482412507249,
+        "task": "TheoChord:47:min7",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424521125,
+        "task": "TheoChord:51:sus4",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424556192,
+        "task": "TheoChord:52:aug",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424582729,
+        "task": "TheoChord:53:sus2",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424592242,
+        "task": "TheoChord:62:aug",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424631477,
+        "task": "TheoChord:52:sus2",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424641934,
+        "task": "TheoChord:64:maj",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424648758,
+        "task": "TheoChord:55:maj7+",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424664735,
+        "task": "TheoChord:62:sus2",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424678584,
+        "task": "TheoChord:58:dim",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424747205,
+        "task": "TheoChord:49:min7",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424776902,
+        "task": "TheoChord:53:min7",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424787055,
+        "task": "TheoChord:53:1+5",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424832414,
+        "task": "TheoChord:55:min",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424860889,
+        "task": "TheoChord:48:min7",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424876766,
+        "task": "TheoChord:64:maj7",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424891978,
+        "task": "TheoChord:65:sus2",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424911285,
+        "task": "TheoChord:69:sus4",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482424944212,
+        "task": "TheoChord:63:sus4",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426070682,
+        "task": "TheoChord:48:dim",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426079264,
+        "task": "TheoChord:65:min7",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426095790,
+        "task": "TheoChord:48:maj",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426115747,
+        "task": "TheoChord:50:dim",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426129082,
+        "task": "TheoChord:71:sus4+7",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426138273,
+        "task": "TheoChord:57:sus4",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426153831,
+        "task": "TheoChord:69:hdim",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426208912,
+        "task": "TheoChord:65:sus2",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482426224046,
+        "task": "TheoChord:56:dim",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      }
+    ]
+  }
+}

@@ -158,7 +158,7 @@ public class Lesson extends ArrayList<LessonTask> {
 		// int base = (int)(Math.random()*12)+6;
 
 		// for use with midi:
-		int base = (int) (Math.random() * 36) + 36;
+		int base = (int) (Math.random() * 24) + 48;
 		ChordType t = ChordType.Random();
 
 		return new TheoChord(new TheoNote(base), t);

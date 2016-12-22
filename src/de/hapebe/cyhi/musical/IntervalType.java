@@ -19,7 +19,7 @@ public class IntervalType implements Comparable<Object> {
 	public final static IntervalType MINOR_SECOND = new IntervalType(1, "2-", "Minor Second", "Minor Seconds"); 
 	public final static IntervalType MAJOR_SECOND = new IntervalType(2, "2+", "Major Second", "Major Seconds"); 
 	public final static IntervalType MINOR_THIRD = new IntervalType(3, "3-", "Minor Third", "Minor Thirds"); 
-	public final static IntervalType MAJOR_THIRD = new IntervalType(4, "3-", "Major Third", "Major Thirds"); 
+	public final static IntervalType MAJOR_THIRD = new IntervalType(4, "3+", "Major Third", "Major Thirds"); 
 	public final static IntervalType FOURTH = new IntervalType(5, "4", "Fourth", "Fourths"); 
 	public final static IntervalType TRITONE = new IntervalType(6, "tt", "Tritone", "Tritones"); 
 	public final static IntervalType FIFTH = new IntervalType(7, "5", "Fifth", "Fifths"); 

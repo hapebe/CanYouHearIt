@@ -12,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
 import de.hapebe.cyhi.logical.Lesson;
-import de.hapebe.cyhi.musical.IntervalType;
 import de.hapebe.cyhi.musical.NoteType;
 import de.hapebe.cyhi.musical.TheoNote;
 

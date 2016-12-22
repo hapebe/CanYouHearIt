@@ -51,6 +51,7 @@ public class TaskResult implements Jsonable {
 	public TaskResult(LessonTask lt) {
 		super();
 		this.lt = lt;
+		this.timestamp = System.currentTimeMillis();
 	}
 
 	public TaskResult(LessonTask lt, byte typeSuccess, byte baseToneSuccess) {

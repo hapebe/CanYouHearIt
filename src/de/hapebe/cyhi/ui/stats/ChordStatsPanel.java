@@ -52,7 +52,7 @@ public class ChordStatsPanel extends StatsPanel {
 				if (ySize > 24)	ySize = 24;
 				
 				g.setColor(colorForSuccessPercentage(percentage));
-				g.fillRect(0, y * 25 + (24 - ySize), 39, ySize);
+				g.fillRect(0, (y * 25) + 24 - ySize, 39, ySize);
 			}
 
 			// single chord/note stats
@@ -60,23 +60,15 @@ public class ChordStatsPanel extends StatsPanel {
 				// todo: find note for x
 				NoteType noteType = NoteType.ByMIDINote(x);
 				
-				TaskResultSeries noteTRS = new TaskResultSeries();
-				for (TaskResult tr : trs) {
-					LessonTask lt = tr.getLessonTask();
-					TheoChord chord = (TheoChord)lt; // this should be okay, because we check the lesson type outside this loop:
-					if (chord.getBaseNote().isNote(noteType)) {
-						noteTRS.add(tr);
-					}
-				}
-
+				TaskResultSeries noteTRS = trs.getFilteredByBaseNote(noteType);
 				if (!noteTRS.isEmpty()) {
 					percentage = (int)Math.round((double)noteTRS.getNoteSuccessRatio() * 100d);
 
 					int ySize = noteTRS.getNNoteAttempts();
 					if (ySize < 2) ySize = 2;
-					if (ySize > 20) ySize = 20;
+					if (ySize > 24) ySize = 24;
 					g.setColor(colorForSuccessPercentage(percentage));
-					g.fillRect(x * 10 + 41, y * 25 + 3 + (20 - ySize), 8, ySize);
+					g.fillRect(x * 10 + 41, (y * 25) + 24 - ySize, 9, ySize);
 				}
 			} // next base note
 		}
@@ -100,7 +92,7 @@ public class ChordStatsPanel extends StatsPanel {
 
 		if ((y > 0) && (y < 300)) {
 			// TODO: can be 11 at max, but we only have 9 chord types (0..8)!
-			int typeIdx = (300 - y) / 25;  
+			int typeIdx = y / 25;  
 			ChordType chordType = chordLookup.get(typeIdx);
 			
 			if (chordType == null) return; // this chord type does not exist

@@ -23,14 +23,14 @@ public class ChordTypePanel extends JPanel {
 	public ChordTypePanel(ActionListener listener) {
 		super();
 
-		gridHeight = 3;
+		gridHeight = 4;
 		gridWidth = Math.floorDiv(ChordType.TYPES.size(), gridHeight);
 		
 		setLayout(new GridLayout(gridHeight, gridWidth));
 		
 		for (ChordType t : ChordType.TYPES) {
 			JRadioButton b = new JRadioButton(t.getName());
-			b.setActionCommand("interval:" + t.getCode());
+			b.setActionCommand("chord:" + t.getCode());
 			b.setEnabled(true);
 			b.addActionListener(listener);
 			

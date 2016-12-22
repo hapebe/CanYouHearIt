@@ -134,8 +134,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	ChordType chordTypeChoice = null;
 	IntervalType intervalTypeChoice = null;
 
-	protected final int LESSON_LENGTH = 10;
-	Lesson lesson; // new Lesson(Lesson.TYPE_INTERVAL_LESSON, LESSON_LENGTH);
+	Lesson lesson;
 
 	AudioClip[] ac = new AudioClip[43];
 
@@ -252,8 +251,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			if (!appletMode) {
 				setUserName("anonymous");
 				// while (userName == null) promptUser();
-				
-				stats = StatsIO.getInstance().loadStats(userName + "-stats.json");
 				if (statsPanel != null)	statsPanel.repaint();
 			} else {
 				userName = "applet user";
@@ -288,23 +285,32 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		initMenu();
 
 		// ***********************************************************
-		// contentPane = new JPanel();
-		// setContentPane(contentPane);
 		contentPane = (JPanel) getContentPane();
-		// Container contentPane = getContentPane();
 
 		contentPane.setBackground(Color.white);
 
 		// contentPane.setLayout(new GridLayout(1,1)); //3 rows, 1 column
 		contentPane.setLayout(null);
+		contentPane.setBackground(UIManager.getLookAndFeel().getDefaults().getColor("Panel.background"));
 
 		// ****************************************************
 		inputPanel = new JPanel();
 		inputPanel.setBounds(0, 0, 480, 400);
 		inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.Y_AXIS));
 
-		initBaseTonePanel();
-		initGenderPanel();
+		// base note chooser:
+		baseTonePanel = new BaseTonePanel(this);
+		Dimension prefSize = baseTonePanel.getPreferredSize();
+		baseTonePanel.setBounds(0, 70, prefSize.width, prefSize.height);
+		
+		// type chooser (and their parent):
+		{
+			chordTypePanel = new ChordTypePanel(this);
+			intervalTypePanel = new IntervalTypePanel(this);
+		}
+		genderPanel = new TypePanel(intervalTypePanel, chordTypePanel);
+		genderPanel.setBounds(0, 130, 480, 80);
+		
 		initControlPanel();
 		initSubmitPanel();
 
@@ -380,21 +386,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 
 		controlPanel.add(p);
 		controlPanel.add(p2);
-	}
-
-	void initBaseTonePanel() {
-		baseTonePanel = new BaseTonePanel(this);
-		Dimension prefSize = baseTonePanel.getPreferredSize();
-		baseTonePanel.setBounds(0, 70, prefSize.width, prefSize.height);
-	}
-
-	void initGenderPanel() {
-		chordTypePanel = new ChordTypePanel(this);
-
-		intervalTypePanel = new IntervalTypePanel(this);
-
-		genderPanel = new TypePanel(intervalTypePanel, chordTypePanel);
-		genderPanel.setBounds(0, 130, 480, 80);
 	}
 
 	void initSubmitPanel() {
@@ -666,17 +657,20 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		baseTonePanel.clearSelection();
 		genderPanel.clearSelection();
 		disableControls();
-		
+
+		// we leave the stats panel as is, so the user can still review their stats until they start a new lesson
+	}
+
+	private void startNewLesson(int lessonType) {
+		// if we have a left-over stats panel, let's get rid of it:
 		if (statsPanel != null) {
 			contentPane.remove(statsPanel);
 			contentPane.validate();
 			
 			statsPanel = null;
 		}
-	}
-
-	private void startNewLesson(int lessonType) {
-		lesson = new Lesson(lessonType, LESSON_LENGTH);
+		
+		lesson = new Lesson(lessonType, Preferences.getInstance().getLessonLength());
 		lesson.initNew();
 		
 		genderPanel.updateFor(lesson);
@@ -723,7 +717,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			genderPanel.clearSelection();
 			disableControls();
 
-			StatsIO.getInstance().saveStats(stats, userName + "-stats.json");
+			save();
 
 			if (!appletMode)
 				System.exit(0);
@@ -835,7 +829,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 				updateControlPanelNameLabel();
 				disableControls();
 				
-				stats = StatsIO.getInstance().loadStats(userName + "-stats.json");
 				statsPanel.repaint();
 			}
 		}
@@ -962,10 +955,12 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 	}
 	
 	void setUserName(String userName) {
-		// TODO: save current stats container, load/create new one
+		save();
 		
 		this.userName = userName;
 		userMenu.setText("User: " + userName);
+		
+		stats = StatsIO.getInstance().loadStats(userName + "-stats.json");
 	}
 
 	void evaluateGuess() {
@@ -1071,9 +1066,16 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 			
 			endLesson();
 			lesson = null;
+		} else {
+			statsPanel.repaint();
 		}
-
-		statsPanel.repaint();
+	}
+	
+	private void save() {
+		// TODO save program status / options / preferences
+		if (stats != null && userName != null) {
+			StatsIO.getInstance().saveStats(stats, userName + "-stats.json");
+		}
 	}
 	
 	private static void printDebugInfos() {
@@ -1104,8 +1106,11 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 
 		appletFrame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
+				music.save();
+				
 				music.stop();
 				music.destroy();
+				
 				appletFrame.setVisible(false);
 				appletFrame.dispose();
 				System.exit(0);

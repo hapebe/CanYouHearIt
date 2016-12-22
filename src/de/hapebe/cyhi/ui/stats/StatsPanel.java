@@ -45,7 +45,7 @@ public abstract class StatsPanel extends JPanel implements MouseListener, MouseM
 		ResourceLoader loader = ResourceLoader.getInstance();
 		
 		if (uiImages.get("allChordsImage") == null) {
-			uiImages.put("allChordsImage", loader.getImageIcon("img/allchords.gif", "allChordsImage").getImage());
+			uiImages.put("allChordsImage", loader.getImageIcon("img/allchords.png", "allChordsImage").getImage());
 		}
 		if (uiImages.get("intervalsImage") == null) {
 			uiImages.put("intervalsImage", loader.getImageIcon("img/intervals.gif", "intervalsImage").getImage());
