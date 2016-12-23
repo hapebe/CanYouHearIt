@@ -16,7 +16,8 @@ import de.hapebe.cyhi.musical.NoteType;
 import de.hapebe.cyhi.musical.TheoNote;
 
 public class BaseTonePanel extends JPanel {
-
+	private static final long serialVersionUID = -8403982665610930860L;
+	
 	int gridHeight;
 	int gridWidth;
 	
@@ -50,7 +51,7 @@ public class BaseTonePanel extends JPanel {
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(480, 60);
+		return new Dimension(480, 80);
 	}
 	
 	public void clearSelection() {

@@ -14,17 +14,8 @@ import javax.swing.JPanel;
 import de.hapebe.cyhi.CanYouHearIt;
 import de.hapebe.cyhi.io.ResourceLoader;
 import de.hapebe.cyhi.logical.Lesson;
-import de.hapebe.cyhi.logical.LessonTask;
-import de.hapebe.cyhi.logical.StatsContainer;
-import de.hapebe.cyhi.logical.TaskResult;
-import de.hapebe.cyhi.logical.TaskResultSeries;
-import de.hapebe.cyhi.musical.ChordType;
-import de.hapebe.cyhi.musical.IntervalType;
-import de.hapebe.cyhi.musical.NoteType;
-import de.hapebe.cyhi.musical.TheoChord;
 
 public abstract class StatsPanel extends JPanel implements MouseListener, MouseMotionListener {
-
 	private static final long serialVersionUID = -1089135848428518249L;
 	
 	static final Dimension PREFERRED_SIZE = new Dimension(160, 400);
@@ -48,7 +39,7 @@ public abstract class StatsPanel extends JPanel implements MouseListener, MouseM
 			uiImages.put("allChordsImage", loader.getImageIcon("img/allchords.png", "allChordsImage").getImage());
 		}
 		if (uiImages.get("intervalsImage") == null) {
-			uiImages.put("intervalsImage", loader.getImageIcon("img/intervals.gif", "intervalsImage").getImage());
+			uiImages.put("intervalsImage", loader.getImageIcon("img/allintervals.png", "intervalsImage").getImage());
 		}
 		if (uiImages.get("notesImage") == null) {
 			uiImages.put("notesImage", loader.getImageIcon("img/notes.gif", "").getImage());

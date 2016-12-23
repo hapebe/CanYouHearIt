@@ -13,6 +13,7 @@ import de.hapebe.cyhi.logical.Lesson;
 import de.hapebe.cyhi.musical.IntervalType;
 
 public class IntervalTypePanel extends JPanel {
+	private static final long serialVersionUID = -7276035959339671619L;
 	
 	int gridHeight;
 	int gridWidth;
@@ -54,13 +55,18 @@ public class IntervalTypePanel extends JPanel {
 	public void updateFor(Lesson lesson) {
 		setSelected(null, true); // clear selection
 		disableControls();
-		enableControls(lesson);
+		// enableControls(lesson);
+		enableControls();
 	}
 	
 	public void disableControls() {
 		for (JRadioButton btn : buttons.values()) btn.setEnabled(false);
 	}
 	
+	public void enableControls() {
+		for (JRadioButton btn : buttons.values()) btn.setEnabled(true);
+	}
+
 	public void enableControls(Lesson lesson) {
 		for (IntervalType t : IntervalType.TYPES) {
 			if (lesson.containsType(t))	buttons.get(t).setEnabled(true);

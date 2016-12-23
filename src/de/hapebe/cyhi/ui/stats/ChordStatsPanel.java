@@ -7,17 +7,13 @@ import java.util.Map;
 
 import de.hapebe.cyhi.CanYouHearIt;
 import de.hapebe.cyhi.logical.ChordStats;
-import de.hapebe.cyhi.logical.Lesson;
-import de.hapebe.cyhi.logical.LessonTask;
-import de.hapebe.cyhi.logical.TaskResult;
 import de.hapebe.cyhi.logical.TaskResultSeries;
 import de.hapebe.cyhi.musical.ChordType;
-import de.hapebe.cyhi.musical.IntervalType;
 import de.hapebe.cyhi.musical.NoteType;
-import de.hapebe.cyhi.musical.TheoChord;
 
 public class ChordStatsPanel extends StatsPanel {
-
+	private static final long serialVersionUID = 4478930706255443794L;
+	
 	Map<Integer, ChordType> chordLookup = new HashMap<Integer, ChordType>();
 	Map<ChordType, Integer> chordReverseLookup = new HashMap<ChordType, Integer>();
 

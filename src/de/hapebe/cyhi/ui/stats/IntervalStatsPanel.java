@@ -12,6 +12,8 @@ import de.hapebe.cyhi.musical.IntervalType;
 import de.hapebe.cyhi.musical.NoteType;
 
 public class IntervalStatsPanel extends StatsPanel {
+	private static final long serialVersionUID = 8256155214505032872L;
+	
 	Map<Integer, IntervalType> intervalLookup = new HashMap<Integer, IntervalType>();
 	Map<IntervalType, Integer> intervalReverseLookup = new HashMap<IntervalType, Integer>();
 	
@@ -22,6 +24,8 @@ public class IntervalStatsPanel extends StatsPanel {
 		// create a rubrication (axis) for Interval Types:
 		int i = 0;
 		for (IntervalType intervalType : IntervalType.TYPES) {
+			if (intervalType.equals(IntervalType.UNISON)) continue; // skip unison
+			
 			intervalLookup.put(i, intervalType);
 			intervalReverseLookup.put(intervalType, i);
 			i++;
@@ -39,6 +43,8 @@ public class IntervalStatsPanel extends StatsPanel {
 		IntervalStats stats = music.getStats().getIntervalStats();
 
 		for (IntervalType type : IntervalType.TYPES) {
+			if (type.equals(IntervalType.UNISON)) continue; // skip unison
+
 			int y = intervalReverseLookup.get(type); // graphical row of this interval type
 
 			TaskResultSeries trs = stats.getAttemptsByType(type);

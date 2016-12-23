@@ -135,6 +135,160 @@
         "typeResult": "SUCCESS",
         "baseNoteResult": "FAILURE",
         "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482485867915,
+        "task": "TheoInterval:67:3-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487136108,
+        "task": "TheoInterval:71:8:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487162025,
+        "task": "TheoInterval:41:5:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487197461,
+        "task": "TheoInterval:43:6+:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487207132,
+        "task": "TheoInterval:43:3-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487230345,
+        "task": "TheoInterval:46:7-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487281955,
+        "task": "TheoInterval:61:7-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487311267,
+        "task": "TheoInterval:66:2+:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487324716,
+        "task": "TheoInterval:45:7+:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482487350894,
+        "task": "TheoInterval:60:3-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482497041695,
+        "task": "TheoInterval:70:tt:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482499113577,
+        "task": "TheoInterval:43:7-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482506141152,
+        "task": "TheoInterval:54:2-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482506179339,
+        "task": "TheoInterval:45:8:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482506287283,
+        "task": "TheoInterval:43:tt:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482506335439,
+        "task": "TheoInterval:41:4:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482506377626,
+        "task": "TheoInterval:64:7-:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482506400699,
+        "task": "TheoInterval:46:7+:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482508508293,
+        "task": "TheoInterval:38:3+:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482508576146,
+        "task": "TheoInterval:40:5:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482508645193,
+        "task": "TheoInterval:44:6+:up",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482509248622,
+        "task": "TheoInterval:44:6-:up",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
       }
     ]
   },
@@ -405,6 +559,20 @@
         "task": "TheoChord:56:dim",
         "typeResult": "FAILURE",
         "baseNoteResult": "SUCCESS",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482503152812,
+        "task": "TheoChord:51:dim",
+        "typeResult": "SUCCESS",
+        "baseNoteResult": "FAILURE",
+        "inversionResult": "NOT_APPLICABLE"
+      },
+      {
+        "time": 1482503236617,
+        "task": "TheoChord:57:sus4",
+        "typeResult": "FAILURE",
+        "baseNoteResult": "FAILURE",
         "inversionResult": "NOT_APPLICABLE"
       }
     ]

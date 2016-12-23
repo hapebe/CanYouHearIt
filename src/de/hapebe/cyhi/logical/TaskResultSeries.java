@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import de.hapebe.cyhi.musical.NoteType;
 
 public class TaskResultSeries extends ArrayList<TaskResult> {
+	private static final long serialVersionUID = -8050639031148138664L;
+	
 	int typeSuccesses = -1;
 	int typeFailures = -1;
 	

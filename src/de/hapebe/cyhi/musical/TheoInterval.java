@@ -1,5 +1,7 @@
 package de.hapebe.cyhi.musical;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import de.hapebe.cyhi.logical.LessonTask;
@@ -67,6 +69,16 @@ public class TheoInterval implements LessonTask {
 
 	public boolean getDirection() {
 		return direction;
+	}
+	
+	@Override
+	public List<TheoNote> getNotes() {
+		List<TheoNote> retval = new ArrayList<TheoNote>();
+		
+		retval.add(getBaseNote());
+		retval.add(getPartnerNote());
+		
+		return retval;
 	}
 
 	public String getCode() {

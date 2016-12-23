@@ -9,7 +9,8 @@ import javax.swing.JPanel;
 import de.hapebe.cyhi.logical.Lesson;
 
 public class TypePanel extends JPanel {
-
+	private static final long serialVersionUID = 3324394670056256278L;
+	
 	IntervalTypePanel intervalTypePanel;
 	ChordTypePanel chordTypePanel;
 	
@@ -25,7 +26,7 @@ public class TypePanel extends JPanel {
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(480, 80);
+		return new Dimension(480, 120);
 	}
 	
 	public void updateFor(Lesson lesson) {

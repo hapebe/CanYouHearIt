@@ -1,7 +1,6 @@
 package de.hapebe.cyhi.io;
 
 import java.awt.Image;
-import java.awt.MediaTracker;
 import java.io.IOException;
 import java.io.InputStream;
 

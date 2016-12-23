@@ -41,6 +41,7 @@ public class IntervalType implements Comparable<Object> {
 		TYPES.add(TRITONE);
 		TYPES.add(FIFTH);
 		TYPES.add(MINOR_SIXTH);
+		TYPES.add(MAJOR_SIXTH);
 		TYPES.add(MINOR_SEVENTH);
 		TYPES.add(MAJOR_SEVENTH);
 		TYPES.add(OCTAVE);

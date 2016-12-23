@@ -9,6 +9,7 @@ import de.hapebe.cyhi.musical.TheoInterval;
 import de.hapebe.cyhi.musical.TheoNote;
 
 public class Lesson extends ArrayList<LessonTask> {
+	private static final long serialVersionUID = -4826116586986792280L;
 	
 	public final static int TYPE_INTERVAL_LESSON = 1;
 	public final static int TYPE_CHORD_LESSON = 2;
@@ -139,7 +140,11 @@ public class Lesson extends ArrayList<LessonTask> {
 	TheoInterval generateInterval() {
 		// for use with midi:
 		int base = (int) (Math.random() * 36) + 36;
-		IntervalType t = IntervalType.Random();
+		
+		IntervalType t = null;
+		do {
+			t = IntervalType.Random();
+		} while(t.equals(IntervalType.UNISON)); // accept everything but unisons
 
 		return new TheoInterval(new TheoNote(base), t);
 	}
