@@ -30,6 +30,8 @@ public class IntervalTypePanel extends JPanel {
 		setLayout(new GridLayout(gridHeight, gridWidth));
 		
 		for (IntervalType t : IntervalType.TYPES) {
+			if (t.equals(IntervalType.UNISON)) continue; // skip unison
+			
 			JRadioButton b = new JRadioButton(t.getName());
 			b.setActionCommand("interval:" + t.getCode());
 			b.setEnabled(true);

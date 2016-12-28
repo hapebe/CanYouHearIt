@@ -16,6 +16,8 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -23,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -251,7 +254,6 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		inputPanel.add(baseTonePanel);
 		inputPanel.add(genderPanel);
 		inputPanel.add(submitPanel);
-		inputPanel.add(previousTaskPanel);
 
 		// ***************************************************
 		contentPane.add(inputPanel);
@@ -326,6 +328,18 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		submitPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		submitPanel.add(submitButton);
 		submitPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+		
+		Action gKeyPressedAction = new AbstractAction() {
+		    public void actionPerformed(ActionEvent e) {
+		        if (getLesson() != null) {
+		        	evaluateGuess();
+		        }
+		    }			
+		};
+		
+		submitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("typed g"), "guessButton");
+		submitPanel.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(KeyStroke.getKeyStroke("typed G"), "guessButton");
+		submitPanel.getActionMap().put("guessButton", gKeyPressedAction);		
 	}
 
 	void initMenu() {
@@ -515,11 +529,10 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		statsPanel.setBounds(480, 0, size.width, size.height);
 		// statsPanel.setBounds(statsPanel.getBounds().x, statsPanel.getBounds().y,	contentPane.getBounds().width - inputPanel.getBounds().width, contentPane.getBounds().height);
 		statsPanel.validate();
-		
 		contentPane.add(statsPanel);
-		
-		statsPanel.validate();
 		statsPanel.repaint();
+		
+		inputPanel.add(previousTaskPanel);
 	}
 	
 	private void setLookAndFeel(String name) {
@@ -768,6 +781,8 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		}
 
 		if (lt instanceof TheoChord) {
+			if (chordTypeChoice == null) return; // TODO: error message / ask for input
+			
 			TheoChord t = (TheoChord) lt;
 			if (t.getType().equals(chordTypeChoice))
 				typeRight = true;
@@ -780,6 +795,8 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 
 			stats.getChordStats().registerAttempt(t, typeRight, baseToneRight);
 		} else if (lt instanceof TheoInterval) {
+			if (intervalTypeChoice == null) return; // TODO: error message / ask for input
+			
 			TheoInterval i = (TheoInterval) lt;
 			if (i.getType().equals(intervalTypeChoice))
 				typeRight = true;
@@ -845,6 +862,7 @@ public class CanYouHearIt extends JApplet implements Runnable, ActionListener {
 		
 		if (!lesson.isAtEnd()) {
 			lesson.goToNextTask();
+			midiPlayer.playMusic(lesson.getCurrentTask());
 		}
 
 

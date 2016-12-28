@@ -18,7 +18,7 @@ public class TypePanel extends JPanel {
 		super();
 		
 		setBorder(BorderFactory.createTitledBorder("type"));
-		setLayout(new GridLayout(1, 1)); // two rows, one col
+		setLayout(new GridLayout(1, 1));
 		
 		this.intervalTypePanel = intervalTypePanel;
 		this.chordTypePanel = chordTypePanel;

@@ -1,10 +1,13 @@
 package de.hapebe.cyhi.ui;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,15 +29,36 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 		super();
 		this.midiPlayer = midiPlayer;
 		
-		guess = new JLabel("");
-		this.add(guess);
+		setBorder(BorderFactory.createTitledBorder("previous task"));
+		setLayout(new GridLayout(1, 3));
 		
-		actual = new JLabel("");
-		this.add(actual);
+		JPanel guessPanel = new JPanel();
+		guessPanel.setLayout(new BoxLayout(guessPanel, BoxLayout.Y_AXIS));
+		guessPanel.add(new JLabel("Your Guess:"));
+		guess = new JLabel("");
+		guessPanel.add(guess);
+		guessPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+		
+		this.add(guessPanel);
 
+		
+		JPanel actualPanel = new JPanel();
+		actualPanel.setLayout(new BoxLayout(actualPanel, BoxLayout.Y_AXIS));
+		actualPanel.add(new JLabel("Actual Sound:"));
+		actual = new JLabel("");
+		actualPanel.add(actual);
+		actualPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+
+		this.add(actualPanel);
+
+		
 		ResourceLoader loader = ResourceLoader.getInstance();
 
-		add(Box.createRigidArea(new Dimension(10, 0)));
+
+		JPanel buttonPanel = new JPanel();
+		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+		
+		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 
 		ImageIcon icon = loader.getImageIcon("img/play16.png", "play");
 		JButton btn = new JButton("", icon);
@@ -42,7 +66,7 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 		btn.setToolTipText("play");
 		btn.setActionCommand("play-chord");
 		btn.addActionListener(this);
-		add(btn);
+		buttonPanel.add(btn);
 
 		// add(Box.createRigidArea(new Dimension(10, 0)));
 
@@ -53,7 +77,7 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 		btn.setActionCommand("play-up");
 		btn.addActionListener(this);
 
-		add(btn);
+		buttonPanel.add(btn);
 		
 		// add(Box.createRigidArea(new Dimension(10, 0)));
 		
@@ -64,10 +88,11 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 		btn.setActionCommand("play-down");
 		btn.addActionListener(this);
 
-		add(btn);
+		buttonPanel.add(btn);
 		
-		add(Box.createRigidArea(new Dimension(10, 0)));
+		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 		
+		this.add(buttonPanel);
 	}
 
 	@Override
@@ -76,9 +101,9 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 		if (cmd.equals("play-chord")) {
 			midiPlayer.playMusic(actualTask);
 		} else if (cmd.equals("play-up")) {
-			// TODO
+			midiPlayer.playArpeggio(actualTask, true);
 		} else if (cmd.equals("play-down")) {
-			// TODO
+			midiPlayer.playArpeggio(actualTask, false);
 		}
 		
 	}
@@ -87,9 +112,9 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 		this.actualTask = actualTask;
 		
 		if (guessTask != null) {
-			guess.setText("G: " + guessTask.getName());
+			guess.setText(guessTask.getName());
 		} else {
-			guess.setText("G: ?");
+			guess.setText("?");
 		}
 		actual.setText(actualTask.getName());
 	}

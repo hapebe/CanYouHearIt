@@ -1,6 +1,7 @@
 package de.hapebe.cyhi.io;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 
@@ -15,6 +16,8 @@ import javax.sound.midi.Synthesizer;
 import de.hapebe.cyhi.logical.LessonTask;
 import de.hapebe.cyhi.musical.TheoNote;
 import de.hapebe.cyhi.realtime.NoteOffTask;
+import de.hapebe.cyhi.realtime.PlayBackAction;
+import de.hapebe.cyhi.realtime.TimedMusicPlayer;
 
 public class MidiPlayer {
 
@@ -81,7 +84,37 @@ public class MidiPlayer {
 	}
 
 	
+	public void playArpeggio(LessonTask lt, boolean upward) {
+		List<Integer> midiNotes = new ArrayList<Integer>();
+		for (TheoNote n : lt.getNotes()) {
+			midiNotes.add(n.getMIDINote());
+		}
+		
+		if (!upward) Collections.reverse(midiNotes); // reverse...
+		
+		TimedMusicPlayer tmp = new TimedMusicPlayer(this);
+		
+		int i=0;
+		// all notes on one after the other:
+		for (int midiNote : midiNotes) {
+			tmp.addAction(new PlayBackAction(i*250, midiNote, true));
+			i++;
+		}
+
+		i=0;
+		// all notes off at the same time:
+		for (int midiNote : midiNotes) {
+			tmp.addAction(new PlayBackAction(2000, midiNote, false));
+			i++;
+		}
+		
+		// the TimedMusicPlayer is a Thread:
+		tmp.start();
+	}
+	
 	public void playMusic(LessonTask lt) {
+		if (lt == null) return;
+		
 //		//for use with samples: 
 //		ac [chord[currentChord][0]].play(); 
 //		if (chord[currentChord][1]!=-1) ac[chord[currentChord][1]].play(); 
@@ -117,5 +150,11 @@ public class MidiPlayer {
 			noteOffTask = null;
 		}
 	}
+
+	public MidiChannel getMidiChannel() {
+		return cc;
+	}
+	
+	
 
 }
