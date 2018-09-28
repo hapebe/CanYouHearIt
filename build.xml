@@ -1,8 +1,8 @@
 <project name="CYHI Build Script" basedir="." default="deploy.local">
 	<property file="build.properties"/>
 
-	<property name="one-jar.dist.dir" value="../libs/one-jar"/>
-	<import file="${one-jar.dist.dir}/one-jar-ant-task.xml" optional="true" />	
+	<property name="one-jar.dist.dir" value="./extra/one-jar"/>
+	<import file="${one-jar.dist.dir}/one-jar-ant-task.xml" optional="false" />	
 	
 	<path id="class.path">
         <fileset dir="${lib.dir}">
@@ -11,22 +11,25 @@
     </path>
 	
 	<target name="-init" depends="clean">
-		<echo>Creating temporary folders...</echo>
+		<echo>Creating folders...</echo>
 		<mkdir dir="${build.dir}"/>
+		<mkdir dir="${bin.dir}"/>
+		<mkdir dir="${dist.dir}"/>
 	</target>
 	
 	<target name="clean" description="Clean up">
 		<echo>Cleaning up...</echo>
 		<delete dir="${build.dir}"/>
-		<!-- <delete dir="dist/"/> -->
+		<delete dir="${bin.dir}"/>
+		<delete dir="${dist.dir}/"/>
 	</target>
 	
-	<target name="build" depends="-init" description="Build project">
-		<echo>!!! This build task does not actually compile / build the application !!!</echo>
-		<!-- <copy todir="${build.dir}">
-			<fileset dir="${src.dir}"/>
-		</copy> -->
-		<echo>Copying resource files to build folder...</echo>
+	<target name="compile" depends="-init" description="Compile java code">
+	    <javac srcdir="${src.dir}" destdir="${bin.dir}" classpathref="class.path"/>
+	</target>
+	
+	<target name="build" depends="-init,compile" description="Build project">
+		<echo>Copying resource files to the bin folder...</echo>
 		<copy includeemptydirs="false" todir="${bin.dir}">
 			<fileset dir="resources">
 				<exclude name="**/*.java" />
@@ -42,7 +45,7 @@
             </manifest>
         </jar>
 	</target>	
-
+	
 	<target name="createOneJar" depends="build" description="Create ONE JAR file">
         <delete file="${dist.dir}/cyhi.jar" />
         <one-jar destfile="${dist.dir}/cyhi.jar" onejarmainclass="${main.class}">
@@ -58,12 +61,37 @@
         </one-jar>
 	</target>
 	
+	<target name="run">
+	    <echo>Running from ${bin.dir} ... </echo>
+	    <java classname="${main.class}" fork="true">          
+	    	<classpath>
+	    		<pathelement location="${bin.dir}"/>
+                <path refid="class.path"/>
+	    	</classpath>
+	    	<!-- command line args: -->
+	    	<arg value="val1" /><arg value="val2" /><arg value="val3" />
+	    	<!-- set environmental value: -->
+	        <env key="k1" value="v1" />
+	    </java>     
+	</target>
 	
     <target name="runJar" depends="createJar" description="Run application from JAR">
+        <java jar="${dist.dir}/cyhi.jar" fork="true">
+            <classpath>
+                 <path refid="class.path"/>
+                 <path location="${dist.dir}/cyhi.jar"/>
+             </classpath>        	
+        </java>
+    </target>
+	
+    <target name="runOneJar" depends="createOneJar">
         <java jar="${dist.dir}/cyhi.jar" fork="true"/>
     </target>
 	
-	<target name="deploy.local" depends="build" description="Deploy to local FS">
+	
+	<target name="deploy.local" depends="createOneJar" description="Deploy OneJar app to local FS">
+		<mkdir dir="${deploy.dir.local}"/>
+
 		<echo>Deleting files from local FS...</echo>
 		<delete>
 			<fileset dir="${deploy.dir.local}"/>
@@ -73,8 +101,6 @@
 		<copy todir="${deploy.dir.local}">
 			<fileset dir="${dist.dir}"/>
 		</copy>
-		
-		<antcall target="clean"/>
 	</target>
 	
 </project>
