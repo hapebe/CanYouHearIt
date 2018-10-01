@@ -18,8 +18,6 @@ import de.hapebe.cyhi.logical.Lesson;
 public abstract class StatsPanel extends JPanel implements MouseListener, MouseMotionListener {
 	private static final long serialVersionUID = -1089135848428518249L;
 	
-	static final Dimension PREFERRED_SIZE = new Dimension(160, 400);
-	
 	protected CanYouHearIt music;
 
 //	Image img[];
@@ -108,12 +106,5 @@ public abstract class StatsPanel extends JPanel implements MouseListener, MouseM
 
 	public void mouseExited(MouseEvent e) {
 	}
-
-	@Override
-	public Dimension getPreferredSize() {
-		return PREFERRED_SIZE;
-	}
-	
-	
 
 }

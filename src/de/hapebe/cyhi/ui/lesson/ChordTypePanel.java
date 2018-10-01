@@ -9,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import de.hapebe.cyhi.Config;
 import de.hapebe.cyhi.logical.Lesson;
 import de.hapebe.cyhi.musical.ChordType;
 
@@ -21,7 +22,7 @@ public class ChordTypePanel extends JPanel {
 	Map<ChordType, JRadioButton> buttons = new HashMap<ChordType, JRadioButton>();
 	ButtonGroup buttonGroup = new ButtonGroup();
 
-	public ChordTypePanel(ActionListener listener) {
+	public ChordTypePanel() {
 		super();
 
 		gridHeight = 4;
@@ -33,7 +34,7 @@ public class ChordTypePanel extends JPanel {
 			JRadioButton b = new JRadioButton(t.getName());
 			b.setActionCommand("chord:" + t.getCode());
 			b.setEnabled(true);
-			b.addActionListener(listener);
+			b.addActionListener(Config.Listener());
 			
 			buttonGroup.add(b);
 			buttons.put(t, b);

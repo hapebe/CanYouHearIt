@@ -11,6 +11,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import de.hapebe.cyhi.Config;
 import de.hapebe.cyhi.logical.Lesson;
 import de.hapebe.cyhi.musical.NoteType;
 import de.hapebe.cyhi.musical.TheoNote;
@@ -24,7 +25,7 @@ public class BaseTonePanel extends JPanel {
 	Map<NoteType, JRadioButton> buttons = new HashMap<NoteType, JRadioButton>();
 	ButtonGroup buttonGroup = new ButtonGroup();
 
-	public BaseTonePanel(ActionListener listener) {
+	public BaseTonePanel() {
 		super();
 		
 		setBorder(BorderFactory.createTitledBorder("base tone"));
@@ -40,7 +41,7 @@ public class BaseTonePanel extends JPanel {
 			JRadioButton b = new JRadioButton(n.getCode());
 			b.setActionCommand("basetone:" + n.getCode());
 			b.setEnabled(false);
-			b.addActionListener(listener);
+			b.addActionListener(Config.Listener());
 			buttonGroup.add(b);
 			buttons.put(type, b);
 			
@@ -49,11 +50,6 @@ public class BaseTonePanel extends JPanel {
 		
 	}
 
-	@Override
-	public Dimension getPreferredSize() {
-		return new Dimension(480, 80);
-	}
-	
 	public void clearSelection() {
 		setSelected(null, true);
 	}

@@ -8,25 +8,30 @@ import javax.swing.JPanel;
 
 import de.hapebe.cyhi.logical.Lesson;
 
+/**
+ * Chooser panel for either interval or chord types - 
+ * based on the kind of current lesson...
+ * @author hapebe@gmx.de
+ */
 public class TypePanel extends JPanel {
 	private static final long serialVersionUID = 3324394670056256278L;
 	
 	IntervalTypePanel intervalTypePanel;
 	ChordTypePanel chordTypePanel;
 	
-	public TypePanel(IntervalTypePanel intervalTypePanel, ChordTypePanel chordTypePanel) {
+	public TypePanel() {
 		super();
 		
 		setBorder(BorderFactory.createTitledBorder("type"));
 		setLayout(new GridLayout(1, 1));
 		
-		this.intervalTypePanel = intervalTypePanel;
-		this.chordTypePanel = chordTypePanel;
+		chordTypePanel = new ChordTypePanel();
+		intervalTypePanel = new IntervalTypePanel();
 	}
 
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(480, 120);
+		return new Dimension(480, 80);
 	}
 	
 	public void updateFor(Lesson lesson) {

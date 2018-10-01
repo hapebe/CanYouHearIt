@@ -9,6 +9,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 
+import de.hapebe.cyhi.Config;
 import de.hapebe.cyhi.logical.Lesson;
 import de.hapebe.cyhi.musical.IntervalType;
 
@@ -21,7 +22,7 @@ public class IntervalTypePanel extends JPanel {
 	Map<IntervalType, JRadioButton> buttons = new HashMap<IntervalType, JRadioButton>();
 	ButtonGroup buttonGroup = new ButtonGroup();
 
-	public IntervalTypePanel(ActionListener listener) {
+	public IntervalTypePanel() {
 		super();
 
 		gridHeight = 3;
@@ -35,7 +36,7 @@ public class IntervalTypePanel extends JPanel {
 			JRadioButton b = new JRadioButton(t.getName());
 			b.setActionCommand("interval:" + t.getCode());
 			b.setEnabled(true);
-			b.addActionListener(listener);
+			b.addActionListener(Config.Listener());
 			
 			buttonGroup.add(b);
 			buttons.put(t, b);

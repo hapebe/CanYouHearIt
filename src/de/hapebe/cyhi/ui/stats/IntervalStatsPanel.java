@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hapebe.cyhi.CanYouHearIt;
+import de.hapebe.cyhi.Config;
 import de.hapebe.cyhi.logical.IntervalStats;
 import de.hapebe.cyhi.logical.TaskResultSeries;
 import de.hapebe.cyhi.musical.IntervalType;
@@ -18,8 +19,8 @@ public class IntervalStatsPanel extends StatsPanel {
 	Map<IntervalType, Integer> intervalReverseLookup = new HashMap<IntervalType, Integer>();
 	
 	
-	public IntervalStatsPanel(CanYouHearIt music) {
-		super(music);
+	public IntervalStatsPanel() {
+		super(Config.App());
 		
 		// create a rubrication (axis) for Interval Types:
 		int i = 0;

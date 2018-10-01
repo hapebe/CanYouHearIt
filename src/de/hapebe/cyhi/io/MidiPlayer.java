@@ -42,7 +42,7 @@ public class MidiPlayer {
 					if (mdi[i].getName().equals("Java Sound Synthesizer")) {
 						MidiDevice md = MidiSystem.getMidiDevice(mdi[i]);
 						synthesizer = (Synthesizer) md;
-						// System.out.println("got Java Sound Sythesizer!");
+						// System.out.println("got Java Sound Synthesizer!");
 					}
 				}
 			}
@@ -104,7 +104,7 @@ public class MidiPlayer {
 		i=0;
 		// all notes off at the same time:
 		for (int midiNote : midiNotes) {
-			tmp.addAction(new PlayBackAction(2000, midiNote, false));
+			tmp.addAction(new PlayBackAction(1000, midiNote, false));
 			i++;
 		}
 		

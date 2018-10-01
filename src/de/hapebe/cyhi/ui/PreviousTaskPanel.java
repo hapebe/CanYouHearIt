@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import de.hapebe.cyhi.Config;
 import de.hapebe.cyhi.io.MidiPlayer;
 import de.hapebe.cyhi.io.ResourceLoader;
 import de.hapebe.cyhi.logical.LessonTask;
@@ -21,13 +22,14 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 	JLabel guess;
 	JLabel actual;
 	
+	JButton btnPlayChord;
+	JButton btnPlayUp;
+	JButton btnPlayDown;
+	
 	LessonTask actualTask;
-	
-	MidiPlayer midiPlayer;
-	
-	public PreviousTaskPanel(MidiPlayer midiPlayer) {
+		
+	public PreviousTaskPanel() {
 		super();
-		this.midiPlayer = midiPlayer;
 		
 		setBorder(BorderFactory.createTitledBorder("previous task"));
 		setLayout(new GridLayout(1, 3));
@@ -54,49 +56,48 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 		
 		ResourceLoader loader = ResourceLoader.getInstance();
 
-
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
 		
 		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
 
-		ImageIcon icon = loader.getImageIcon("img/play16.png", "play");
-		JButton btn = new JButton("", icon);
-		btn.setEnabled(true);
-		btn.setToolTipText("play");
-		btn.setActionCommand("play-chord");
-		btn.addActionListener(this);
-		buttonPanel.add(btn);
+		btnPlayChord = new JButton("", loader.getImageIcon("img/play16.png", "play"));
+		btnPlayChord.setToolTipText("play");
+		btnPlayChord.setActionCommand("play-chord");
+		btnPlayChord.addActionListener(this);
+		buttonPanel.add(btnPlayChord);
 
 		// add(Box.createRigidArea(new Dimension(10, 0)));
 
-		icon = loader.getImageIcon("img/up16.png", "play");
-		btn = new JButton("", icon);
-		btn.setEnabled(true);
-		btn.setToolTipText("play upwards");
-		btn.setActionCommand("play-up");
-		btn.addActionListener(this);
+		btnPlayUp = new JButton("", loader.getImageIcon("img/up16.png", "play"));
+		btnPlayUp.setToolTipText("play upwards");
+		btnPlayUp.setActionCommand("play-up");
+		btnPlayUp.addActionListener(this);
 
-		buttonPanel.add(btn);
+		buttonPanel.add(btnPlayUp);
 		
 		// add(Box.createRigidArea(new Dimension(10, 0)));
 		
-		icon = loader.getImageIcon("img/down16.png", "play");
-		btn = new JButton("", icon);
-		btn.setEnabled(true);
-		btn.setToolTipText("play downwards");
-		btn.setActionCommand("play-down");
-		btn.addActionListener(this);
+		btnPlayDown = new JButton("", loader.getImageIcon("img/down16.png", "play"));
+		btnPlayDown.setToolTipText("play downwards");
+		btnPlayDown.setActionCommand("play-down");
+		btnPlayDown.addActionListener(this);
 
-		buttonPanel.add(btn);
+		buttonPanel.add(btnPlayDown);
 		
 		buttonPanel.add(Box.createRigidArea(new Dimension(10, 0)));
+		
+		// initially, we don't have an older task to review:
+		disableControls();
 		
 		this.add(buttonPanel);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		MidiPlayer midiPlayer = Config.MidiPlayer();
+		if (midiPlayer == null) return; // TODO: error handling...
+		
 		String cmd = e.getActionCommand();
 		if (cmd.equals("play-chord")) {
 			midiPlayer.playMusic(actualTask);
@@ -117,6 +118,20 @@ public class PreviousTaskPanel extends JPanel implements ActionListener {
 			guess.setText("?");
 		}
 		actual.setText(actualTask.getName());
+		
+		enableControls();
+	}
+	
+	private void enableControls() {
+		btnPlayChord.setEnabled(true);
+		btnPlayUp.setEnabled(true);
+		btnPlayDown.setEnabled(true);
+	}
+
+	public void disableControls() {
+		btnPlayChord.setEnabled(false);
+		btnPlayUp.setEnabled(false);
+		btnPlayDown.setEnabled(false);
 	}
 
 }

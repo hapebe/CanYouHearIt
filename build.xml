@@ -61,7 +61,7 @@
         </one-jar>
 	</target>
 	
-	<target name="run">
+	<target name="run" depends="build">
 	    <echo>Running from ${bin.dir} ... </echo>
 	    <java classname="${main.class}" fork="true">          
 	    	<classpath>

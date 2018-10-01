@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hapebe.cyhi.CanYouHearIt;
+import de.hapebe.cyhi.Config;
 import de.hapebe.cyhi.logical.ChordStats;
 import de.hapebe.cyhi.logical.TaskResultSeries;
 import de.hapebe.cyhi.musical.ChordType;
@@ -17,8 +18,8 @@ public class ChordStatsPanel extends StatsPanel {
 	Map<Integer, ChordType> chordLookup = new HashMap<Integer, ChordType>();
 	Map<ChordType, Integer> chordReverseLookup = new HashMap<ChordType, Integer>();
 
-	public ChordStatsPanel(CanYouHearIt music) {
-		super(music);
+	public ChordStatsPanel() {
+		super(Config.App());
 		
 		// create a rubrication (axis) for Chord Types:
 		int i = 0;
