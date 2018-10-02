@@ -1,7 +1,6 @@
 package de.hapebe.cyhi.ui.lesson;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,7 +1,10 @@
 package de.hapebe.cyhi.realtime;
 
-import java.util.*;
-import javax.sound.midi.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimerTask;
+
+import javax.sound.midi.MidiChannel;
 
 public class NoteOffTask extends TimerTask {
 

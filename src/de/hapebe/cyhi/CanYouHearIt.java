@@ -1,39 +1,31 @@
 package de.hapebe.cyhi;
 
-import java.applet.AudioClip;
-import java.awt.Color;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -53,16 +45,9 @@ import de.hapebe.cyhi.musical.TheoChord;
 import de.hapebe.cyhi.musical.TheoInterval;
 import de.hapebe.cyhi.musical.TheoNote;
 import de.hapebe.cyhi.ui.LookAndFeelItem;
-import de.hapebe.cyhi.ui.PreviousTaskPanel;
 import de.hapebe.cyhi.ui.SoundTaskStage;
+import de.hapebe.cyhi.ui.StatusBar;
 import de.hapebe.cyhi.ui.UserNameDialog;
-import de.hapebe.cyhi.ui.lesson.BaseTonePanel;
-import de.hapebe.cyhi.ui.lesson.ChordTypePanel;
-import de.hapebe.cyhi.ui.lesson.IntervalTypePanel;
-import de.hapebe.cyhi.ui.lesson.TypePanel;
-import de.hapebe.cyhi.ui.stats.ChordStatsPanel;
-import de.hapebe.cyhi.ui.stats.IntervalStatsPanel;
-import de.hapebe.cyhi.ui.stats.StatsPanel;
 
 public class CanYouHearIt extends JFrame implements ActionListener {
 
@@ -83,6 +68,9 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 	JMenu optionMenu;
 	JMenuItem miShowChordName;
 	JMenu helpMenu;
+	
+	JToolBar toolBar;
+	StatusBar statusBar;
 
 	URL iconURL;
 	ImageIcon icon;
@@ -155,6 +143,7 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 		}
 	}*/
 
+	@SuppressWarnings("serial")
 	public void init() {
 		try {
 		 	UIManager.setLookAndFeel(Preferences.getInstance().getLookAndFeel());
@@ -167,14 +156,19 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 			JOptionPane.showMessageDialog(this, ex.getMessage(), "MIDI not available", JOptionPane.ERROR_MESSAGE, null);
 		}
 
-		// setLayout(new GridLayout(1,1));
+		getContentPane().setLayout(new BorderLayout());
 
 		// ***********************************************
 		initMenu();
+		initToolBar();
+
+		statusBar = new StatusBar();
+        getContentPane().add(statusBar, BorderLayout.SOUTH);
 		
 		soundTaskStage.init();
 		getContentPane().add(soundTaskStage);
 		
+		// ***********************************************
 		setUserName(DEFAULT_USER);
 		
 		// switch accelerator keys for play/stop ...
@@ -189,7 +183,7 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 		    );
 	    target.getActionMap().put("play",  new AbstractAction() {
 	        public void actionPerformed(ActionEvent actionEvent) {
-	        	System.out.println("Action: play");
+	        	// System.out.println("Action: play");
 	        	playAction();
 	        }
 	    });
@@ -200,13 +194,13 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 	    );
 	    target.getActionMap().put("guess",  new AbstractAction() {
 	        public void actionPerformed(ActionEvent actionEvent) {
-	        	System.out.println("Action: guess");
+	        	// System.out.println("Action: guess");
 	        	guessAction();
 	        }
 	    });
 	}
 
-	void initMenu() {
+	private void initMenu() {
 		ResourceLoader loader = ResourceLoader.getInstance();
 
 		menuBar = new JMenuBar();
@@ -218,10 +212,18 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 		fileMenu.getAccessibleContext().setAccessibleDescription("File&Control operations");
 		menuBar.add(fileMenu);
 
+		mi = new JMenuItem("Switch User...", KeyEvent.VK_S);
+		mi.setEnabled(true);
+		mi.addActionListener(this);
+		fileMenu.add(mi);
+		
+		fileMenu.addSeparator();
+
 		mi = new JMenuItem("Save & Quit", KeyEvent.VK_Q);
 		mi.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F4, ActionEvent.ALT_MASK));
 		mi.addActionListener(this);
 		fileMenu.add(mi);
+
 
 		userMenu = new JMenu("User");
 		userMenu.setMnemonic(KeyEvent.VK_U);
@@ -233,13 +235,6 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 		userMenu.add(mi);
 
 		mi = new JMenuItem("Series of Chords", KeyEvent.VK_C);
-		mi.addActionListener(this);
-		userMenu.add(mi);
-
-		userMenu.addSeparator();
-
-		mi = new JMenuItem("Switch User...", KeyEvent.VK_S);
-		mi.setEnabled(true);
 		mi.addActionListener(this);
 		userMenu.add(mi);
 
@@ -293,6 +288,31 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 		mi.addActionListener(this);
 		helpMenu.add(mi);
 	}
+	
+	private void initToolBar() {
+        toolBar = new JToolBar();
+        toolBar.setSize(480, 20);
+        toolBar.setFloatable(false);
+
+		ResourceLoader loader = ResourceLoader.getInstance();
+		
+		JButton btnLessonIntv = new JButton(loader.getImageIcon("img/interval-lesson-20.png", "play"));
+		btnLessonIntv.setMargin(new Insets(0,0,0,0));
+		btnLessonIntv.setActionCommand("Series of Intervals");
+		btnLessonIntv.setToolTipText("Start a new lesson of intervals");
+		btnLessonIntv.addActionListener(Config.Listener());
+		
+		JButton btnLessonChord = new JButton(loader.getImageIcon("img/chord-lesson-20.png", "play"));
+		btnLessonChord.setMargin(new Insets(0,0,0,0));
+		btnLessonChord.setActionCommand("Series of Chords");
+		btnLessonChord.setToolTipText("Start a new lesson of chords");
+		btnLessonChord.addActionListener(Config.Listener());
+		
+		toolBar.add(btnLessonIntv);
+		toolBar.add(btnLessonChord);
+        
+        getContentPane().add(toolBar, BorderLayout.NORTH);
+	}
 
 	public void stop() {
 		Config.midiPlayer.stopMusic();
@@ -316,11 +336,11 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 	}
 
 	public Dimension getPreferredSize() {
-		return new Dimension(640, 400);
+		return new Dimension(640, 440);
 	}
 
 	public Dimension getMinimumSize() {
-		return new Dimension(640, 400);
+		return new Dimension(640, 440);
 	}
 
 	private void newLesson(int lessonType) {
@@ -331,7 +351,7 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 		updateControlPanelNameLabel();
 		soundTaskStage.enableGeneralControls(lesson);
 		
-		// TODO? add previous task panel...
+		statusBar.setMessage("Lesson: " + lesson.getTypeName());
 	}
 	
 	private void endLesson() {
@@ -339,6 +359,7 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 		soundTaskStage.clear();
 		soundTaskStage.disableControls();
 		// we leave the stats panel as is, so the user can still review their stats until they start a new lesson
+		statusBar.setMessage("");
 	}
 
 	private void setLookAndFeel(String name) {
@@ -513,7 +534,7 @@ public class CanYouHearIt extends JFrame implements ActionListener {
 			if (lt instanceof TheoInterval) {
 				lessonTypeString = "interval";
 				taskObjectName = ((TheoInterval) lt).getName();
-			} else if (lt instanceof TheoInterval) {
+			} else if (lt instanceof TheoChord) {
 				lessonTypeString = "chord";
 				taskObjectName = ((TheoChord) lt).getName();
 			}

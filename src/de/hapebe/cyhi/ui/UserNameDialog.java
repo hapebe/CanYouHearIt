@@ -1,8 +1,16 @@
 package de.hapebe.cyhi.ui;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import java.beans.*; //Property change stuff
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+//Property change stuff
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 public class UserNameDialog extends JDialog {
 
@@ -33,11 +41,7 @@ public class UserNameDialog extends JDialog {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent we) {
-				/*
-				 * Instead of directly closing the window, we're going to change
-				 * the JOptionPane's value property.
-				 */
-				optionPane.setValue(new Integer(JOptionPane.CLOSED_OPTION));
+				optionPane.setValue(JOptionPane.CLOSED_OPTION);
 			}
 		});
 

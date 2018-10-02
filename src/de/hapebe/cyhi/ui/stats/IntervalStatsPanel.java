@@ -5,7 +5,6 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import de.hapebe.cyhi.CanYouHearIt;
 import de.hapebe.cyhi.Config;
 import de.hapebe.cyhi.logical.IntervalStats;
 import de.hapebe.cyhi.logical.TaskResultSeries;

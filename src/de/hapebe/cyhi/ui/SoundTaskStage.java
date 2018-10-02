@@ -4,12 +4,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Insets;
 import java.awt.LayoutManager;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -18,11 +16,9 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import de.hapebe.cyhi.Config;
-import de.hapebe.cyhi.Preferences;
 import de.hapebe.cyhi.io.ResourceLoader;
 import de.hapebe.cyhi.logical.Lesson;
 import de.hapebe.cyhi.logical.LessonTask;
@@ -89,11 +85,11 @@ public class SoundTaskStage extends JPanel {
 	}
 
 	public Dimension getPreferredSize() {
-		return new Dimension(640, 400);
+		return new Dimension(640, 380);
 	}
 
 	public Dimension getMinimumSize() {
-		return new Dimension(640, 400);
+		return new Dimension(640, 380);
 	}
 
 	public void init() {
@@ -116,9 +112,9 @@ public class SoundTaskStage extends JPanel {
 
 		// review of the preceding task:
 		previousTaskPanel = new PreviousTaskPanel();
-		previousTaskPanel.setBounds(0, 210, 480, 110);
+		previousTaskPanel.setBounds(0, 210, 480, 90);
 		
-		initSubmitPanel(); // 0, 320, 480, 120
+		initSubmitPanel(); // 0, 300, 480, 80
 		
 
 		// **************************************************
@@ -147,6 +143,7 @@ public class SoundTaskStage extends JPanel {
 		p.setLayout(new FlowLayout(FlowLayout.CENTER));
 
 		playButton = new JButton("Play", loader.getImageIcon("img/Play24.gif", "play"));
+		playButton.setMargin(new Insets(0,6,0,6));
 		playButton.setActionCommand("play");
 		playButton.setEnabled(false);
 		playButton.setToolTipText("play the current chord");
@@ -154,12 +151,14 @@ public class SoundTaskStage extends JPanel {
 		playButton.addActionListener(Config.App());
 
 		stopButton = new JButton("Stop", loader.getImageIcon("img/Stop24.gif", "stop"));
+		stopButton.setMargin(new Insets(0,2,0,2));
 		stopButton.setActionCommand("stop");
 		stopButton.setEnabled(false);
 		stopButton.setToolTipText("stop playback");
 		stopButton.addActionListener(Config.App());
 
 		skipButton = new JButton("Skip", loader.getImageIcon("img/StepForward24.gif", "skip"));
+		skipButton.setMargin(new Insets(0,2,0,2));
 		skipButton.setActionCommand("skip");
 		skipButton.setEnabled(false);
 		skipButton.setToolTipText("skip this chord");
@@ -185,8 +184,8 @@ public class SoundTaskStage extends JPanel {
 
 	void initSubmitPanel() {
 		submitPanel = new JPanel();
-		submitPanel.setBounds(0, 320, 480, 120);
-		submitPanel.setPreferredSize(new Dimension(480, 120));
+		submitPanel.setBounds(0, 300, 480, 60);
+		submitPanel.setPreferredSize(new Dimension(480, 60));
 		submitPanel.setBorder(BorderFactory.createLoweredBevelBorder());
 		submitPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
 

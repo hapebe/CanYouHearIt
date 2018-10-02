@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,6 +18,8 @@ import de.hapebe.cyhi.io.ResourceLoader;
 import de.hapebe.cyhi.logical.LessonTask;
 
 public class PreviousTaskPanel extends JPanel implements ActionListener {
+	private static final long serialVersionUID = -5912687124025838762L;
+	
 	JLabel guess;
 	JLabel actual;
 	

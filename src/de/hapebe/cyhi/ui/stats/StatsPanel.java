@@ -1,6 +1,5 @@
 package de.hapebe.cyhi.ui.stats;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
