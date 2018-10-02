@@ -17,7 +17,7 @@ import javax.swing.border.EmptyBorder;
  */
 public class StatusBar extends JPanel {
 	private static final long serialVersionUID = -2906427950772597405L;
-	
+
 	JLabel lblText;
 	JLabel lblClock;
 	
