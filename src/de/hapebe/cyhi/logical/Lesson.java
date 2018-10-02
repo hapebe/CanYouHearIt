@@ -52,6 +52,12 @@ public class Lesson extends ArrayList<LessonTask> {
 		return type;
 	}
 	
+	public String getTypeName() {
+		if (type == Lesson.TYPE_CHORD_LESSON) return "Series of Chords";
+		if (type == Lesson.TYPE_INTERVAL_LESSON) return "Series of Intervals";
+		return null;
+	}
+	
 	public StatsContainer stats() {
 		return stats;
 	}
